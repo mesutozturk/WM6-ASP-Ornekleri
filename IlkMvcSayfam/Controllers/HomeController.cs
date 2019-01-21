@@ -58,7 +58,6 @@ namespace IlkMvcSayfam.Controllers
             var kisi = kisiler.FirstOrDefault(x => x.Id == id);
             if (kisi == null)
                 return RedirectToAction("Falan");
-
             return View(kisi);
         }
     }
