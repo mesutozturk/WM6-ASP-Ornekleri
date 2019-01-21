@@ -5,8 +5,10 @@
 
 <h2>@Model.CategoryName nin detay sayfasi</h2>
 <h4>@Model.Description</h4>
-<table class="table table-responsive table-striped">
-    <thead>
+@if (Model.Products.Any())
+{
+    <table class="table table-responsive table-striped">
+        <thead>
         <tr>
             <th>#</th>
             <th>Product Name</th>
@@ -14,8 +16,8 @@
             <th>Units in Stock</th>
             <th>Detail</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         @for (int i = 0; i < Model.Products.Count; i++)
         {
             var current = Model.Products.ToList()[i];
@@ -31,5 +33,11 @@
                 </td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
+else
+{
+    <h3 class="text-danger">Kategoriye kayitli bir urun bulunmamaktadir.</h3>
+}
+

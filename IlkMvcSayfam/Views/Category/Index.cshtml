@@ -2,6 +2,21 @@
 @{
     ViewBag.Title = "Kategoriler";
 }
+@using (Html.BeginForm("Add", "Category", FormMethod.Post, new { @class = "form-inline" }))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.TextBox("CategoryName", "", new { @class = "form-control" })
+            </div>
+            <div class="col-md-6">
+                @Html.TextBox("Description", "", new { @class = "form-control" })
+            </div>
+            <input type="submit" value="Kategori Ekle" class="btn btn-info" />
+        </div>
+    </div>
+}
+
 <table class="table table-responsive table-striped">
     <thead>
         <tr>
@@ -10,23 +25,29 @@
             <th>Description</th>
             <th>Product Count</th>
             <th>Detail</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         @for (int i = 0; i < Model.Count; i++)
         {
             var current = Model[i];
-            <tr>
-                <th>@(i + 1)</th>
-                <td>@current.CategoryName</td>
-                <td>@current.Description</td>
-                <td>@current.Products.Count</td>
-                <td>
-                    <a href="@Url.Action("Detail", "Category", new {id = current.CategoryID})" class="btn btn-success">
-                        Detail
-                    </a>
-                </td>
-            </tr>
+        <tr>
+            <th>@(i + 1)</th>
+            <td>@current.CategoryName</td>
+            <td>@current.Description</td>
+            <td>@current.Products.Count</td>
+            <td>
+                <a href="@Url.Action("Detail", "Category", new {id = current.CategoryID})" class="btn btn-success">
+                    Detail
+                </a>
+            </td>
+            <td>
+                <a href="@Url.Action("Delete", "Category", new {id = current.CategoryID})" class="btn btn-danger">
+                    Deleyt
+                </a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
