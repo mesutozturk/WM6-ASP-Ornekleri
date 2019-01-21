@@ -1,0 +1,29 @@
+﻿@using IlkMvcSayfam.Models
+@model List<Kisi>
+@{
+    ViewBag.Title = "Falan";
+}
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Detail</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var current = Model[i];
+            <tr>
+                <th>@(i + 1)</th>
+                <td>@current.Name</td>
+                <td>@current.Surname</td>
+                <td><a href="@Url.Action("Detail","Home",new {id=current.Id})" class="btn btn-success">Detail</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

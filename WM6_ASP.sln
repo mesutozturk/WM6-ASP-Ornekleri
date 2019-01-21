@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ders1", "Ders1", "{5821057F-79E4-45EE-8416-2790BAEC4332}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IlkMvcSayfam", "IlkMvcSayfam\IlkMvcSayfam.csproj", "{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD} = {5821057F-79E4-45EE-8416-2790BAEC4332}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E442A7B4-E887-40FA-858E-0EFA10D326E8}
+	EndGlobalSection
+EndGlobal
