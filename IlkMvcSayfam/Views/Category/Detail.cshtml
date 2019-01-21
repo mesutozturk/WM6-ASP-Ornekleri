@@ -1,0 +1,35 @@
+﻿@model Category
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>@Model.CategoryName nin detay sayfasi</h2>
+<h4>@Model.Description</h4>
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Product Name</th>
+            <th>Unit Price</th>
+            <th>Units in Stock</th>
+            <th>Detail</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Products.Count; i++)
+        {
+            var current = Model.Products.ToList()[i];
+            <tr>
+                <th>@(i + 1)</th>
+                <td>@current.ProductName</td>
+                <td>@($"{current.UnitPrice:c2}")</td>
+                <td>@current.UnitsInStock</td>
+                <td>
+                    <a href="@Url.Action("Detail", "Product", new {id = current.ProductID})" class="btn btn-success">
+                        Detail
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
