@@ -55,9 +55,22 @@ namespace IlkMvcSayfam.Controllers
             }
             catch (Exception ex)
             {
-                
+
             }
             return RedirectToAction("Index");
+        }
+
+        public JsonResult Categories()
+        {
+            var categoriler = new NorthwindEntities().Categories.Select(x => new
+            {
+                x.CategoryName,
+                x.CategoryID,
+                x.Description,
+                ProductCount = x.Products.Count
+            }).ToList();
+
+            return Json(categoriler, JsonRequestBehavior.AllowGet);
         }
     }
 }
