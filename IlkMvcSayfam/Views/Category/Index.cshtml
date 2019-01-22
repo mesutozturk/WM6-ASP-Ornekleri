@@ -26,6 +26,7 @@
             <th>Product Count</th>
             <th>Detail</th>
             <th>Delete</th>
+            <th>Update</th>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +45,12 @@
             </td>
             <td>
                 <a href="@Url.Action("Delete", "Category", new {id = current.CategoryID})" class="btn btn-danger">
-                    Deleyt
+                    Delete
+                </a>
+            </td>
+            <td>
+                <a href="@Url.Action("Update", "Category", new {id = current.CategoryID})" class="btn btn-warning">
+                    Update
                 </a>
             </td>
         </tr>
