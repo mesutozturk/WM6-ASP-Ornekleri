@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ders1", "Ders1", "{5821057F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IlkMvcSayfam", "IlkMvcSayfam\IlkMvcSayfam.csproj", "{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ders2", "Ders2", "{D37B5EB8-6D10-4572-B89C-F1C9B19688EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjaxIslemler", "AjaxIslemler\AjaxIslemler.csproj", "{BDD8B8D3-6567-42B9-848B-5F51C8A0EBBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +21,17 @@ Global
 		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDD8B8D3-6567-42B9-848B-5F51C8A0EBBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDD8B8D3-6567-42B9-848B-5F51C8A0EBBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDD8B8D3-6567-42B9-848B-5F51C8A0EBBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDD8B8D3-6567-42B9-848B-5F51C8A0EBBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A391901D-5AAF-44BE-AA19-27C1B39BBBFD} = {5821057F-79E4-45EE-8416-2790BAEC4332}
+		{BDD8B8D3-6567-42B9-848B-5F51C8A0EBBE} = {D37B5EB8-6D10-4572-B89C-F1C9B19688EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E442A7B4-E887-40FA-858E-0EFA10D326E8}
