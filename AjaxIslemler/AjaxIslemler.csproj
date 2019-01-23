@@ -188,6 +188,7 @@
     <Compile Include="Models\Territory.cs">
       <DependentUpon>NorthModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\CategoryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

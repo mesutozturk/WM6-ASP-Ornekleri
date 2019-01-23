@@ -6,6 +6,24 @@
 <br />
 <br />
 <div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <form class="form-inline" id="frmAdd">
+                <div class="form-group">
+                    <label for="txtCategoryName">Category Name</label>
+                    <input type="text" class="form-control" id="txtCategoryName" placeholder="Category Name">
+                </div>
+                <div class="form-group">
+                    <label for="txtDescription">Description</label>
+                    <input type="text" class="form-control" id="txtDescription" placeholder="Description">
+                </div>
+                <button type="submit" class="btn btn-info">Add Category</button>
+                <div id="messagediv"></div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <br />
     <div class="row" id="searchdiv">
         <div class="col-md-6 col-md-offset-3">
             <div class="col-lg-8">
@@ -31,29 +49,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="resultbody">
-                    <tr>
-                        <th>1</th>
-                        <td>beverages</td>
-                        <td>falan filan</td>
-                        <td>0</td>
-                        <td>
-                            <a href="@Url.Action("Detail", "Category", new {id = 1})" class="btn btn-success">
-                                Detail
-                            </a>
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Delete", "Category", new {id = 1})" class="btn btn-danger">
-                                Delete
-                            </a>
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Update", "Category", new {id = 1})" class="btn btn-warning">
-                                Update
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id="resultbody"></tbody>
             </table>
         </div>
     </div>
@@ -65,6 +61,35 @@
 {
     <script>
         $(function () {
+            function init() {
+                $.ajax({
+                    url: "@Url.Action("Search","Category",new {s="*"})",
+                    method: "get",
+                    dataType: "json"
+                }).done(function(e) {
+                    if (e.success) {
+                        renderdata(e.data);
+                        $("#resultdiv").show(600);
+                    } else {
+                        alert(e.message);
+                    }
+                });
+            }
+            $("#frmAdd").submit(function (ev) {
+                ev.preventDefault();
+                var data = {
+                    CategoryName: $("#txtCategoryName").val(),
+                    Description: $("#txtDescription").val()
+                }
+                $.ajax({
+                    url: '@Url.Action("Add","Category")',
+                    method: "post",
+                    dataType: "json",
+                    data:data
+                }).done(function(e) {
+                    alert(e.message);
+                });
+            });
             $("#resultdiv").hide();
             $("#txtsearch").keyup(function (e) {
                 $("#resultmessage").hide();
@@ -84,7 +109,7 @@
                         if (e.data.length > 0) {
                             renderdata(e.data);
                             $("#resultdiv").show(600);
-                        } 
+                        }
                     } else {
                         $("#resultmessage").html("<span class='text text-danger'><h2>" + e.message + "</h2></span>");
                     }
@@ -102,17 +127,38 @@
                         var td2 = document.createElement("td");
                         td2.innerText = value.Description;
                         var td3 = document.createElement("td");
-                        td3.innerText = 0;
+                        td3.innerText = value.ProductCount;
                         var td4 = document.createElement("td");
                         var a = document.createElement("a");
                         $(a).attr("href", "@Url.Action("Detail", "Category")" + "/" + value.CategoryID).attr("class", "btn btn-success").html("Detail");
 
-                        $(a).appendTo(td4);
+                        var btnSil = document.createElement("input");
+                        $(btnSil).attr({
+                            "type": "button",
+                            "class": "btn btn-danger",
+                            "value": "Delete",
+                            "name": value.CategoryID
+                        }).on("click", function () {
+                            var id = this.name;
+                            $.ajax({
+                                url: "@Url.Action("Delete","Category")",
+                                method: "post",
+                                dataType: "json",
+                                data: {id:id}
+                            }).done(function(e) {
+                                alert(e.message);
+                                init();
+                            });
+                        });
 
+                        $(a).appendTo(td4);
+                        $(btnSil).appendTo(td4);
 
                         $(tr).append(th).append(td).append(td2).append(td3).append(td4).appendTo($("#resultbody"));
                     });
             }
+
+            init();
         });
     </script>
 }
