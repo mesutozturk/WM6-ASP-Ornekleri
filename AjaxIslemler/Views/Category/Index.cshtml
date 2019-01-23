@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="row" id="resultdiv">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-10 col-md-offset-1">
             <table class="table table-responsive table-striped">
                 <thead>
                     <tr>
@@ -61,6 +61,7 @@
 {
     <script>
         $(function () {
+            setInterval(init, 10000);
             function init() {
                 $.ajax({
                     url: "@Url.Action("Search","Category",new {s="*"})",
@@ -118,7 +119,7 @@
             function renderdata(data) {
                 $("#resultbody").empty();
                 $.each(data,
-                    function(key,value) {
+                    function (key, value) {
                         var tr = document.createElement("tr");
                         var th = document.createElement("th");
                         th.innerText = key + 1;
