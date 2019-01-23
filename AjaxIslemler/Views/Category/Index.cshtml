@@ -2,9 +2,9 @@
 @{
     ViewBag.Title = "Index";
 }
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 <div class="container">
     <div class="row" id="searchdiv">
         <div class="col-md-6 col-md-offset-3">
@@ -15,7 +15,46 @@
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     </span>
                 </div><!-- /input-group -->
+                <div id="resultmessage"></div>
             </div><!-- /.col-lg-6 -->
+        </div>
+    </div>
+    <div class="row" id="resultdiv">
+        <div class="col-md-6 col-md-offset-3">
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                        <th>Product Count</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="resultbody">
+                    <tr>
+                        <th>1</th>
+                        <td>beverages</td>
+                        <td>falan filan</td>
+                        <td>0</td>
+                        <td>
+                            <a href="@Url.Action("Detail", "Category", new {id = 1})" class="btn btn-success">
+                                Detail
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Delete", "Category", new {id = 1})" class="btn btn-danger">
+                                Delete
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Update", "Category", new {id = 1})" class="btn btn-warning">
+                                Update
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -25,10 +64,55 @@
 @section scripts
 {
     <script>
-        $(function() {
-            $("#txtsearch").keyup(function(e) {
+        $(function () {
+            $("#resultdiv").hide();
+            $("#txtsearch").keyup(function (e) {
+                $("#resultmessage").hide();
+                $("#resultdiv").hide();
                 var key = $(this).val();
+                if (key.length < 3)
+                    return;
+
+                $.ajax({
+                    url: '@Url.Action("Search","Category")' + "?s=" + key,
+                    method: "GET",
+                    dataType:"json"
+                }).done(function (e) {
+                    $("#resultmessage").fadeIn(400);
+                    if (e.success) {
+                        $("#resultmessage").html("<span class='text text-success'><h2>" + e.message + "</h2></span>");
+                        if (e.data.length > 0) {
+                            renderdata(e.data);
+                            $("#resultdiv").show(600);
+                        } 
+                    } else {
+                        $("#resultmessage").html("<span class='text text-danger'><h2>" + e.message + "</h2></span>");
+                    }
+                });
             });
+            function renderdata(data) {
+                $("#resultbody").empty();
+                $.each(data,
+                    function(key,value) {
+                        var tr = document.createElement("tr");
+                        var th = document.createElement("th");
+                        th.innerText = key + 1;
+                        var td = document.createElement("td");
+                        td.innerText = value.CategoryName;
+                        var td2 = document.createElement("td");
+                        td2.innerText = value.Description;
+                        var td3 = document.createElement("td");
+                        td3.innerText = 0;
+                        var td4 = document.createElement("td");
+                        var a = document.createElement("a");
+                        $(a).attr("href", "@Url.Action("Detail", "Category")" + "/" + value.CategoryID).attr("class", "btn btn-success").html("Detail");
+
+                        $(a).appendTo(td4);
+
+
+                        $(tr).append(th).append(td).append(td2).append(td3).append(td4).appendTo($("#resultbody"));
+                    });
+            }
         });
     </script>
 }
