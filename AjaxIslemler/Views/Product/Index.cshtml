@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Products Index";
+}
+
+<br />
+<br />
+<br />
+<div class="container">
+    <div class="row"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <select id="cmbCategory" class="form-control">
+                <option value="1">a</option>
+                <option value="2">a</option>
+                <option value="3">b</option>
+                <option value="4">a</option>
+                <option value="5">c</option>
+                <option value="6">a</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function () {
+            function init() {
+                $.ajax({
+                    url: "@Url.Action("GetAllCategories","Product")",
+                    method: "get",
+                    dataType: "json"
+                }).done(function(e) {
+                    if (e.success) {
+                        $('#cmbCategory').empty();
+                        $('#cmbCategory')
+                            .append($("<option></option>")
+                                .attr("value",0)
+                                .text("Kategorisi Yok"));
+                        $.each(e.data, function(key, value) {
+                            $('#cmbCategory')
+                                .append($("<option></option>")
+                                    .attr("value",value.CategoryID)
+                                    .text(value.CategoryName));
+                        });
+                    }
+                });
+            }
+
+            $("#cmbCategory").change(function() {
+                var id= $(this).val();
+                
+                console.log($("#cmbCategory option:selected").val());
+            });
+
+            init();
+        });
+    </script>
+}
