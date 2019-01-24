@@ -20,6 +20,19 @@
                 <button type="submit" class="btn btn-info">Add Category</button>
                 <div id="messagediv"></div>
             </form>
+            <form class="form-inline" id="frmUpdate" style="display: none">
+                <input type="hidden" id="CategoryID" />
+                <div class="form-group">
+                    <label for="txtCategoryName2">Category Name</label>
+                    <input type="text" class="form-control" id="txtCategoryName2" placeholder="Category Name">
+                </div>
+                <div class="form-group">
+                    <label for="txtDescription2">Description</label>
+                    <input type="text" class="form-control" id="txtDescription2" placeholder="Description">
+                </div>
+                <button type="submit" class="btn btn-info">Update Category</button>
+                <div id="messagediv2"></div>
+            </form>
         </div>
     </div>
     <br />
@@ -91,6 +104,27 @@
                     alert(e.message);
                 });
             });
+            $("#frmUpdate").submit(function(ev) {
+                ev.preventDefault();
+                var data = {
+                    CategoryName: $("#txtCategoryName2").val(),
+                    Description: $("#txtDescription2").val(),
+                    CategoryID: $("#CategoryID").val()
+                };
+                $.ajax({
+                    url: '@Url.Action("Update","Category")',
+                    method: "post",
+                    dataType: "json",
+                    data:data
+                }).done(function(e) {
+                    alert(e.message);
+                    if (e.success) {
+                        init();
+                        $("#frmUpdate").hide();
+                        $("#frmAdd").show(400);
+                    }
+                });
+            });
             $("#resultdiv").hide();
             $("#txtsearch").keyup(function (e) {
                 $("#resultmessage").hide();
@@ -151,9 +185,28 @@
                                 init();
                             });
                         });
+                        var btnGuncelle = document.createElement("input");
+                        $(btnGuncelle).attr({
+                            "type": "button",
+                            "class": "btn btn-warning",
+                            "value": "Update",
+                            "name": value.CategoryID
+                        }).on("click",
+                            function () {
+                                var categoryId = this.name;
+                                var satir = $(this).parent().parent()[0].childNodes;
+                                var categoryName = satir[1].innerText;
+                                var description = satir[2].innerText;
+                                $("#CategoryID").val(categoryId);
+                                $("#txtCategoryName2").val(categoryName);
+                                $("#txtDescription2").val(description);
+                                $("#frmAdd").hide();
+                                $("#frmUpdate").show(400);
+                            });
 
                         $(a).appendTo(td4);
                         $(btnSil).appendTo(td4);
+                        $(btnGuncelle).appendTo(td4);
 
                         $(tr).append(th).append(td).append(td2).append(td3).append(td4).appendTo($("#resultbody"));
                     });
