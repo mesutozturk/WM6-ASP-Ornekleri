@@ -6,7 +6,10 @@
 <br />
 <br />
 <br />
-<div class="container">
+<div class="loading">
+    <img src="~/img/loading.gif" width="100" height="100" class="img-circle"/>
+</div>
+<div class="container blur">
     <div class="row">
         <div class="col-md-12">
             <form class="form-horizontal" id="frmAdd">
@@ -62,16 +65,88 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
-
+        <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+            <input type="search" id="txtsearch" class="form-control"/>
+        </div>
+    </div>
+    <br />
+    <div class="row" id="resultdiv">
+        <div class="col-md-12">
+            <table class="table table-responsive table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product Name</th>
+                    <th>Category Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity Per Unit</th>
+                    <th>Added Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="resultbody"></tbody>
+            </table>
         </div>
     </div>
 </div>
 
 @section scripts
 {
+    <style>
+        .loading {
+            z-index: 100;
+            position: fixed;
+            top: 40%;
+            left: 45%;
+        }
+    </style>
     <script>
         $(function () {
+            $(".loading").hide();
+            $(document).ajaxStart(function (ev) {
+                //$(".blur").hide();
+                $(".loading").show();
+            });
+            $(document).ajaxStop(function (ev) {
+                $(".loading").hide();
+                //$(".blur").show(100);
+            });
+            $.ajaxQueue = [];
+            var que = $.ajaxQueue;
+
+            $.ajaxSetup({
+                beforeSend: function(){
+                    if (this.queue) {
+                        que.push(this);
+                    }
+                    else {
+                        return true;
+                    }
+                    if (que.length > 1) {
+                        return false;
+                    }
+                },
+                complete: function (e) {
+                    if (e.responseJSON.success) {
+                        renderData(e.responseJSON.data);
+                    } else {
+                        alert(e.responseJSON.message);
+                    }
+                    que.shift();
+                    var newReq = que[0];
+                    if (newReq) {
+                        // setup object creation should be automated 
+                        // and include all properties in queued AJAX request
+                        // this version is just a demonstration. 
+                        var setup = {
+                            url: newReq.url,
+                            success: newReq.success
+                        };
+                        $.ajax(setup);
+                    }
+                }
+            });
+
             function init() {
                 $.ajax({
                     url: "@Url.Action("GetAllCategories","Product")",
@@ -92,7 +167,47 @@
                         });
                     }
                 });
+                $.ajax({
+                    url: "@Url.Action("GetAllProducts","Product")",
+                    method: "get",
+                    dataType: "json"
+                }).done(function(e) {
+                    if (e.success) {
+                        renderData(e.data);
+                    }
+                });
             }
+
+            function renderData(data) {
+                if (data.length == 0) {
+                    $("#resultdiv").hide();
+                    return;
+                }
+                $("#resultdiv").show(400);
+                $("#resultbody").empty();
+                $.each(data,
+                    function(key, value) {
+                        $("<tr></tr>")
+                            .append($("<th></th>").text(key + 1))
+                            .append($("<td></td>").text(value.ProductName))
+                            .append($("<td></td>").text(value.CategoryName))
+                            .append($("<td></td>").text(value.UnitPriceFormatted))
+                            .append($("<td></td>").text(value.QuantityPerUnit))
+                            .append($("<td></td>").text(value.AddedDateFormatted))
+                            .append($("<td></td>").text("button"))
+                            .appendTo($("#resultbody"));
+
+                    });
+            }
+
+            $("#txtsearch").keyup(function () {
+                $.ajax({
+                    url: "@Url.Action("GetAllProducts","Product")" + "?key=" + $("#txtsearch").val(),
+                    method: "get",
+                    dataType: "json",
+                    queue: true
+                });
+            });
 
             $("#frmAdd").submit(function(ev) {
                 ev.preventDefault();
@@ -109,8 +224,13 @@
                     method: "post",
                     dataType: "json",
                     data:data
-                }).done(function(e) {
+                }).done(function (e) {
                     console.log(e);
+                    alert(e.message);
+                    if (e.success) {
+                        $("#frmAdd")[0].reset();
+                        init();
+                    }
                 });
             });
 
@@ -122,5 +242,6 @@
 
             init();
         });
+
     </script>
 }

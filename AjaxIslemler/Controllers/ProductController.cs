@@ -46,12 +46,20 @@ namespace AjaxIslemler.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetAllProducts()
+        public JsonResult GetAllProducts(string key)
         {
             try
             {
                 var db = new NorthwindEntities();
-                var data = db.Products.OrderBy(x => x.ProductName)
+                var query = db.Products.AsQueryable();
+                if (!string.IsNullOrEmpty(key))
+                {
+                    key = key.ToLower();
+                    query = query.Where(x => x.ProductName.ToLower().Contains(key) ||
+                                       x.Category.CategoryName.ToLower().Contains(key) ||
+                                       x.Supplier.CompanyName.ToLower().Contains(key));
+                }
+                var data = query.OrderBy(x => x.ProductName)
                     .ToList()
                     .Select(x => new ProductViewModel()
                     {
@@ -95,6 +103,7 @@ namespace AjaxIslemler.Controllers
             {
                 var db = new NorthwindEntities();
                 model.CategoryID = model.CategoryID == 0 ? null : model.CategoryID;
+                model.AddedDate = DateTime.Now;
                 db.Products.Add(model);
                 db.SaveChanges();
                 return Json(new ResponseData()
