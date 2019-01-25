@@ -7,7 +7,7 @@
 <br />
 <br />
 <div class="loading">
-    <img src="~/img/loading.gif" width="100" height="100" class="img-circle"/>
+    <img src="~/img/loading.gif" width="100" height="100" class="img-circle" />
 </div>
 <div class="container blur">
     <div class="row">
@@ -66,7 +66,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 col-xs-12">
-            <input type="search" id="txtsearch" class="form-control"/>
+            <input type="search" id="txtsearch" class="form-control" />
         </div>
     </div>
     <br />
@@ -74,15 +74,15 @@
         <div class="col-md-12">
             <table class="table table-responsive table-striped">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Product Name</th>
-                    <th>Category Name</th>
-                    <th>Unit Price</th>
-                    <th>Quantity Per Unit</th>
-                    <th>Added Date</th>
-                    <th>Action</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Category Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity Per Unit</th>
+                        <th>Added Date</th>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody id="resultbody"></tbody>
             </table>
@@ -106,9 +106,11 @@
             $(document).ajaxStart(function (ev) {
                 //$(".blur").hide();
                 $(".loading").show();
+                $("#resultdiv").hide();
             });
             $(document).ajaxStop(function (ev) {
                 $(".loading").hide();
+                $("#resultdiv").show(100);
                 //$(".blur").show(100);
             });
             $.ajaxQueue = [];
@@ -127,6 +129,7 @@
                     }
                 },
                 complete: function (e) {
+                    console.log(e);
                     if (e.responseJSON.success) {
                         renderData(e.responseJSON.data);
                     } else {
@@ -135,14 +138,14 @@
                     que.shift();
                     var newReq = que[0];
                     if (newReq) {
-                        // setup object creation should be automated 
+                        // setup object creation should be automated
                         // and include all properties in queued AJAX request
-                        // this version is just a demonstration. 
+                        // this version is just a demonstration.
                         var setup = {
                             url: newReq.url,
                             success: newReq.success
                         };
-                        $.ajax(setup);
+                       $.ajax(setup);
                     }
                 }
             });
@@ -179,7 +182,7 @@
             }
 
             function renderData(data) {
-                if (data.length == 0) {
+                if (data && data.length == 0) {
                     $("#resultdiv").hide();
                     return;
                 }
