@@ -87,5 +87,30 @@ namespace AjaxIslemler.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public JsonResult Add(Product model)
+        {
+            try
+            {
+                var db = new NorthwindEntities();
+                model.CategoryID = model.CategoryID == 0 ? null : model.CategoryID;
+                db.Products.Add(model);
+                db.SaveChanges();
+                return Json(new ResponseData()
+                {
+                    success = true,
+                    message = $"{model.ProductName} isimli ürün basariyla eklenmiştir."
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new ResponseData()
+                {
+                    success = false,
+                    message = $"Bir hata olustu {ex.Message}"
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

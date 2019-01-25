@@ -7,17 +7,63 @@
 <br />
 <br />
 <div class="container">
-    <div class="row"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" id="frmAdd">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="txtProductName" class="col-sm-4 control-label">Product Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="txtProductName" placeholder="Product Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cmbCategory" class="col-sm-4 control-label">Category Name</label>
+                        <div class="col-sm-8">
+                            <select id="cmbCategory" class="form-control">
+                                <option value="1">a</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="txtUnitPrice" class="col-sm-4 control-label">Unit Price</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" min="0" max="9999" step=".01"
+                                   id="txtUnitPrice" placeholder="Unit Price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtQuantityPerUnit" class="col-sm-4 control-label">Quantity Per Unit</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="txtQuantityPerUnit" placeholder="Quantity Per Unit">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="cbDiscontinued"> Discontinued
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-6">
+                            <button type="submit" class="btn btn-info btn-block">Add Product</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6">
-            <select id="cmbCategory" class="form-control">
-                <option value="1">a</option>
-                <option value="2">a</option>
-                <option value="3">b</option>
-                <option value="4">a</option>
-                <option value="5">c</option>
-                <option value="6">a</option>
-            </select>
+
         </div>
     </div>
 </div>
@@ -48,9 +94,29 @@
                 });
             }
 
+            $("#frmAdd").submit(function(ev) {
+                ev.preventDefault();
+                var data = {
+                    CategoryID: $("#cmbCategory option:selected").val(),
+                    ProductName: $("#txtProductName").val(),
+                    UnitPrice: $("#txtUnitPrice").val().replace(".",","),
+                    QuantityPerUnit: $("#txtQuantityPerUnit").val(),
+                    Discontinued: $("#cbDiscontinued").is(':checked')
+                };
+                console.log(data);
+                $.ajax({
+                    url: "@Url.Action("Add","Product")",
+                    method: "post",
+                    dataType: "json",
+                    data:data
+                }).done(function(e) {
+                    console.log(e);
+                });
+            });
+
             $("#cmbCategory").change(function() {
                 var id= $(this).val();
-                
+
                 console.log($("#cmbCategory option:selected").val());
             });
 
