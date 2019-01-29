@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proje", "Proje", "{9A4D4821
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Tema", "Admin.Tema\Admin.Tema.csproj", "{93E5DA31-1325-448E-9AF0-A591A09765DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Web.UI", "Admin.Web.UI\Admin.Web.UI.csproj", "{C0AC3967-DBE3-4618-9609-F940EC91F682}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{93E5DA31-1325-448E-9AF0-A591A09765DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93E5DA31-1325-448E-9AF0-A591A09765DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93E5DA31-1325-448E-9AF0-A591A09765DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0AC3967-DBE3-4618-9609-F940EC91F682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0AC3967-DBE3-4618-9609-F940EC91F682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0AC3967-DBE3-4618-9609-F940EC91F682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0AC3967-DBE3-4618-9609-F940EC91F682}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +53,7 @@ Global
 		{F5A3574D-06BB-480F-A67C-D4F5D25FA5B2} = {4DE6B476-8FF4-4DDE-B267-B4CA2A432982}
 		{9A4D4821-CE2A-4B79-87B4-D188F4397F59} = {4DE6B476-8FF4-4DDE-B267-B4CA2A432982}
 		{93E5DA31-1325-448E-9AF0-A591A09765DC} = {F5A3574D-06BB-480F-A67C-D4F5D25FA5B2}
+		{C0AC3967-DBE3-4618-9609-F940EC91F682} = {9A4D4821-CE2A-4B79-87B4-D188F4397F59}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E442A7B4-E887-40FA-858E-0EFA10D326E8}
