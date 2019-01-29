@@ -54,5 +54,15 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Admin.DAL\Admin.DAL.csproj">
+      <Project>{d2294867-e3be-4111-a934-3bb4b9099553}</Project>
+      <Name>Admin.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Admin.Models\Admin.Models.csproj">
+      <Project>{ddb262fb-0e69-4c0b-a6c6-c03f952d3914}</Project>
+      <Name>Admin.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
