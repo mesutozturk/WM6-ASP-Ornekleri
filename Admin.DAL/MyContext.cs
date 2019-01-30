@@ -18,7 +18,7 @@ namespace Admin.DAL
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>()
                 .Property(x => x.TaxRate)
-                .HasPrecision(3, 2);
+                .HasPrecision(4, 2);
 
             modelBuilder.Entity<Product>()
                 .Property(x => x.BuyPrice)
