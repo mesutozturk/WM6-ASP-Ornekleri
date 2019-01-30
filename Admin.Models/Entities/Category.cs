@@ -15,8 +15,8 @@ namespace Admin.Models.Entities
         public string CategoryName { get; set; }
         [Range(0, 1)]
         public decimal TaxRate { get; set; } = 0;
+        [DisplayName("Üst Kategori")]
         public int? SupCategoryId { get; set; }
-
 
         [ForeignKey("SupCategoryId")]
         public virtual Category SupCategory { get; set; }
