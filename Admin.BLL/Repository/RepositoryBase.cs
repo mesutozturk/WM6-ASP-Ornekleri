@@ -49,7 +49,6 @@ namespace Admin.BLL.Repository
             DbObject.Add(entity);
             return DbContext.SaveChanges();
         }
-
         public void InsertForMark(T entity)
         {
             DbObject.Add(entity);
@@ -77,9 +76,16 @@ namespace Admin.BLL.Repository
         {
             return DbContext.SaveChanges();
         }
-        public async Task<int> UpdateAsync(T entity)
+        public async Task<int> UpdateAsync()
         {
             return await DbContext.SaveChangesAsync();
+        }
+        public void Update(T entity)
+        {
+            DbObject.Attach(entity);
+            DbContext.Entry(entity).State = EntityState.Modified;
+            entity.UpdatedDate = DateTime.Now;
+            this.Update();
         }
     }
 }
