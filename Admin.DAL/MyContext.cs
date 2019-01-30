@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Admin.Models.Entities;
+using System;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Admin.Models.Entities;
 
 namespace Admin.DAL
 {
@@ -13,8 +9,10 @@ namespace Admin.DAL
         public MyContext()
             : base("name=MyCon")
         {
-
+            this.InstanceDate = DateTime.Now;
         }
+
+        public DateTime InstanceDate { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

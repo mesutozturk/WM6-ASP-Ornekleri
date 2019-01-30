@@ -1,4 +1,8 @@
-﻿namespace Admin.BLL.Helpers
+﻿using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
+
+namespace Admin.BLL.Helpers
 {
     public static class StringHelpers
     {
@@ -33,5 +37,21 @@
 
             return sonuc;
         }
+        public static string Capitilize(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            var items = text.Split(' ');
+            var result = string.Empty;
+            foreach (var item in items)
+            {
+                if (item.Length > 1)
+                    result += $"{(item.Substring(0, 1).ToUpper())}{item.Substring(1).ToLower()} ";
+                else
+                    result += $"{item} ";
+            }
+            return result.Trim();
+        }
+
+        public static string GetCode() => Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "").ToLower(new CultureInfo("en-US", false));
     }
 }
