@@ -4,6 +4,7 @@ using Admin.BLL.Repository;
 using System.Linq;
 using System.Web.Mvc;
 using Admin.Models.Entities;
+using Admin.Models.ViewModels;
 
 namespace Admin.Web.UI.Controllers
 {
@@ -23,19 +24,32 @@ namespace Admin.Web.UI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Add(Category model)
         {
             try
             {
-                model.TaxRate /= 100;
                 if (model.SupCategoryId == 0) model.SupCategoryId = null;
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError("CategoryName", "100 karakteri geçme kardeş");
+                    model.SupCategoryId = model.SupCategoryId ?? 0;
+                    ViewBag.CategoryList = GetCategorySelectList();
+                    return View(model);
+                }
                 new CategoryRepo().Insert(model);
+                ViewBag.Message = $"{model.CategoryName} isimli kategori başarıyla eklenmiştir";
                 return RedirectToAction("Add");
             }
             catch (Exception ex)
             {
-                //todo: hata sayfası yaz
-                return RedirectToAction("Add");
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "Add",
+                    ControllerName = "Category"
+                };
+                return RedirectToAction("Error", "Home");
             }
         }
     }
