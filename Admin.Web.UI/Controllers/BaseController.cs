@@ -1,4 +1,5 @@
-﻿using Admin.BLL.Repository;
+﻿using System;
+using Admin.BLL.Repository;
 using Admin.Models.Entities;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,7 +83,7 @@ namespace Admin.Web.UI.Controllers
                 new SelectListItem()
                 {
                     Text = "Perakende Ürünü Yok",
-                    Value = ""
+                    Value = new Guid().ToString()
                 }
             };
             foreach (var product in products)
