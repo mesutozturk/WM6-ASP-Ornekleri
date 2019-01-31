@@ -38,6 +38,7 @@ namespace Admin.Web.UI.Controllers
 
             try
             {
+                model.LastPriceUpdateDate=DateTime.Now;
                 await new ProductRepo().InsertAsync(model);
                 TempData["Message"] = $"{model.ProductName} isimli ürün başarıyla eklenmiştir";
                 return RedirectToAction("Add");
