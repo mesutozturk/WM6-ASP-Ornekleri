@@ -31,7 +31,9 @@ namespace Admin.Models.Entities
         public double UnitsInStock { get; set; }
         [DisplayName("Fiyat Güncellenme Tarihi")]
         public DateTime LastPriceUpdateDate { get; set; }
+        [DisplayName("Kategorisi")]
         public int CategoryId { get; set; }
+        [DisplayName("Perakende Ürünü")]
         public Guid? SupProductId { get; set; }
         [StringLength(20)]
         [Required]

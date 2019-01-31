@@ -1,0 +1,94 @@
+﻿@model Product
+@{
+    ViewBag.Title = "Add Product";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success">
+                <p><strong>Başarılı!</strong> @TempData["Message"]</p>
+            </div>
+        }
+        <div class="card">
+            <div class="card-header">
+                <h4>Ürün Ekleme Formu</h4>
+                <br />
+                <div class="text text-danger">@Html.ValidationSummary()</div>
+                @*<ul class="card-actions">
+                        <li>
+                            <button type="button"><i class="ion-more"></i></button>
+                        </li>
+                    </ul>*@
+            </div>
+            <div class="card-block">
+                @using (Html.BeginForm("Add", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ProductName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control", placeholder = "Ürün Adı" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.ProductName)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.CategoryId, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control", size = "1" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Barcode, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.Barcode, new { @class = "form-control", placeholder = "Barcode" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.Barcode)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.BuyPrice, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.BuyPrice, new { @class = "form-control", placeholder = "Alış Fiyatı" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.BuyPrice)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.SalesPrice, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.SalesPrice, new { @class = "form-control", placeholder = "Satış Fiyatı" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.SalesPrice)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ProductType, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.EnumDropDownListFor(x => x.ProductType, "Seçiniz", new { @class = "form-control", size = "1" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.ProductType)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Description, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = "Açıklama" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.Description)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Quantity, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", placeholder = "Birim", type = "number" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.Quantity)</span>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button class="btn btn-app" type="submit">Ürün Ekle</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
