@@ -10,7 +10,9 @@ namespace Admin.Web.UI.Controllers
     {
         protected List<SelectListItem> GetCategorySelectList()
         {
-            var categories = new CategoryRepo().GetAll().OrderBy(x => x.CategoryName);
+            var categories = new CategoryRepo()
+                .GetAll(x => x.SupCategoryId == null)
+                .OrderBy(x => x.CategoryName);
             var list = new List<SelectListItem>()
             {
                 new SelectListItem()
@@ -23,6 +25,11 @@ namespace Admin.Web.UI.Controllers
             {
                 if (category.Categories.Any())
                 {
+                    list.Add(new SelectListItem()
+                    {
+                        Text = category.CategoryName,
+                        Value = category.Id.ToString()
+                    });
                     list.AddRange(GetSubCategories(category.Categories.OrderBy(x => x.CategoryName).ToList()));
                 }
                 else
@@ -42,6 +49,11 @@ namespace Admin.Web.UI.Controllers
                 {
                     if (category.Categories.Any())
                     {
+                        list2.Add(new SelectListItem()
+                        {
+                            Text = category.CategoryName,
+                            Value = category.Id.ToString()
+                        });
                         list2.AddRange(GetSubCategories(category.Categories.OrderBy(x => x.CategoryName).ToList()));
                     }
                     else

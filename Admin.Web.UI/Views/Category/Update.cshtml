@@ -1,0 +1,69 @@
+﻿@model Category
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success">
+                <p><strong>Başarılı!</strong> @TempData["Message"]</p>
+            </div>
+        }
+        <div class="card">
+            <div class="card-header">
+                <h4>Kategori Güncelleme Formu</h4>
+                <br />
+                <div class="text text-danger">@Html.ValidationSummary()</div>
+                @*<ul class="card-actions">
+                        <li>
+                            <button type="button"><i class="ion-more"></i></button>
+                        </li>
+                    </ul>*@
+            </div>
+            <div class="card-block">
+                @using (Html.BeginForm("Update", "Category", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x=>x.Id)
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.CategoryName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", placeholder = "Kategori Adı" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.CategoryName)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.SupCategoryId, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(x => x.SupCategoryId, (List<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control", size = "1" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.TaxRate, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(x => x.TaxRate, new { @class = "form-control", placeholder = "Kdv Oranı", type = "number" })
+                            <br /><span class="text-danger">@Html.ValidationMessageFor(x => x.TaxRate)</span>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button class="btn btn-app" type="submit">Kategori Güncelle</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section bottom
+{
+    <script>
+        $(function () {
+            var tax = '@Model.TaxRate';
+            $("#TaxRate").val(tax.replace(",","."));
+        })
+    </script>
+}
