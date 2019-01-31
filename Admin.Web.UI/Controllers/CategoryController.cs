@@ -115,6 +115,11 @@ namespace Admin.Web.UI.Controllers
                 data.TaxRate = model.TaxRate;
                 data.SupCategoryId = model.SupCategoryId;
                 new CategoryRepo().Update(data);
+                foreach (var dataCategory in data.Categories)
+                {
+                    dataCategory.TaxRate = data.TaxRate;
+                    new CategoryRepo().Update(dataCategory);
+                }
                 TempData["Message"] = $"{model.CategoryName} isimli kategori başarıyla güncellenmiştir";
                 ViewBag.CategoryList = GetCategorySelectList();
                 return View(data);
