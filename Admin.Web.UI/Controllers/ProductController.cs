@@ -38,7 +38,10 @@ namespace Admin.Web.UI.Controllers
 
             try
             {
-                model.LastPriceUpdateDate=DateTime.Now;
+                if (model.SupProductId.ToString().Replace("0", "").Replace("-", "").Length == 0)
+                    model.SupProductId = null;
+
+                model.LastPriceUpdateDate = DateTime.Now;
                 await new ProductRepo().InsertAsync(model);
                 TempData["Message"] = $"{model.ProductName} isimli ürün başarıyla eklenmiştir";
                 return RedirectToAction("Add");

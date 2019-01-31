@@ -41,6 +41,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        @Html.LabelFor(x => x.SupProductId, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(x => x.SupProductId, (List<SelectListItem>)ViewBag.ProductList, new { @class = "form-control", size = "1" })
+                        </div>
+                    </div>
+                    <div class="form-group">
                         @Html.LabelFor(x => x.Barcode, new { @class = "col-md-3 control-label" })
                         <div class="col-md-7">
                             @Html.TextBoxFor(x => x.Barcode, new { @class = "form-control", placeholder = "Barcode" })
