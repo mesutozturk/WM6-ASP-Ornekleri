@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Admin.BLL.Services;
 
 namespace Admin.Web.UI
 {
@@ -13,6 +14,7 @@ namespace Admin.Web.UI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            new BarcodeService().Get("8690698032203");
         }
     }
 }
