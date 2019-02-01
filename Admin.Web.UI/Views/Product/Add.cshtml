@@ -3,7 +3,11 @@
     ViewBag.Title = "Add Product";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-
+@section top
+{
+    <link rel="stylesheet" href="~/assets/js/plugins/select2/select2.min.css" />
+    <link rel="stylesheet" href="~/assets/js/plugins/select2/select2-bootstrap.css" />
+}
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="card">
@@ -71,7 +75,7 @@
                     <div class="form-group">
                         @Html.LabelFor(x => x.SupProductId, new { @class = "col-md-3 control-label" })
                         <div class="col-md-7">
-                            @Html.DropDownListFor(x => x.SupProductId, (List<SelectListItem>)ViewBag.ProductList, new { @class = "form-control", size = "1" })
+                            @Html.DropDownListFor(x => x.SupProductId, (List<SelectListItem>)ViewBag.ProductList, new { @class = "js-select2 form-control", size = "1"})
                         </div>
                     </div>
                     <div class="form-group">
@@ -129,9 +133,11 @@
 
 @section bottom
 {
+    <script src="~/assets/js/plugins/select2/select2.full.min.js"></script>
     <script src="~/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
     <script>
-        $(function() {
+        $(function () {
+            App.initHelpers(['select2']);
             $("#frmSearch").submit(function(e) {
                 e.preventDefault();
                 if ($("#txtSearch").val().length < 1) {
