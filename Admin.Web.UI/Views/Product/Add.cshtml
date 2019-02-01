@@ -134,7 +134,17 @@
         $(function() {
             $("#frmSearch").submit(function(e) {
                 e.preventDefault();
-
+                if ($("#txtSearch").val().length < 1) {
+                    $.notify({
+                            // options
+                            message: "Lütfen geçerli bir barkod giriniz",
+                            title: 'Barcode Servis Mesajı'
+                        },
+                        {
+                            // settings
+                            type:  "danger"
+                        });
+                }
 
                 $.ajax({
                     url: '@Url.Action("CheckBarcode","Product")' + "?barcode=" + $("#txtSearch").val(),
@@ -155,6 +165,7 @@
                     if (response.data != null) {
                         var data = response.data;
                         $("#ProductName").val(data.Name);
+                        $("#Description").val(data.Name);
                         $("#Barcode").val(data.Barcode);
                         $("#SalesPrice").val(data.Price.toString().replace(".",","));
                         $("#txtSearch").val("");
