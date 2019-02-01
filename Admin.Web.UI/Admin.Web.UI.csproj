@@ -94,6 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\audio\beep.mp3" />
     <Content Include="assets\css\app-custom.css" />
     <Content Include="assets\css\app.css" />
     <Content Include="assets\css\bootstrap.css" />

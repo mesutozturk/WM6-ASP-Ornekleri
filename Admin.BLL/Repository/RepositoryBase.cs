@@ -91,6 +91,10 @@ namespace Admin.BLL.Repository
             return this.Save();
         }
 
+        public IQueryable<T> Queryable()
+        {
+            return DbObject;
+        }
         public bool IsDisposed { get; set; }
         public void Dispose()
         {

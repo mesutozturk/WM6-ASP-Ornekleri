@@ -56,6 +56,8 @@
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Enums\OrderTypes.cs" />
     <Compile Include="Enums\ProductTypes.cs" />
+    <Compile Include="Models\BarcodeResult.cs" />
+    <Compile Include="Models\ResponseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
   </ItemGroup>

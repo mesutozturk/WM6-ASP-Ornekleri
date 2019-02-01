@@ -6,6 +6,34 @@
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
+        <div class="card">
+            <div class="card-header">
+                <h4>Ürün Ekleme Formu</h4>
+                <br />
+                <div class="text text-danger">@Html.ValidationSummary()</div>
+                @*<ul class="card-actions">
+                        <li>
+                            <button type="button"><i class="ion-more"></i></button>
+                        </li>
+                    </ul>*@
+            </div>
+            <div class="card-block">
+                @using (Html.BeginForm("CheckBarcode", "Product", FormMethod.Get, new { @class = "form-horizontal", id = "frmSearch" }))
+                {
+                    <div class="form-group">
+                        <label for="txtSearch" class="col-md-3 control-label">Ürün Ara</label>
+                        <div class="col-md-7">
+                            <input type="text" id="txtSearch" class="form-control" , placeholder="Barkoda göre ürün arama" />
+                        </div>
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button class="btn btn-app" type="submit">Ara</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
         @if (TempData["Message"] != null)
         {
             <div class="alert alert-success">
@@ -98,3 +126,41 @@
         </div>
     </div>
 </div>
+
+@section bottom
+{
+    <script src="~/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script>
+        $(function() {
+            $("#frmSearch").submit(function(e) {
+                e.preventDefault();
+
+
+                $.ajax({
+                    url: '@Url.Action("CheckBarcode","Product")' + "?barcode=" + $("#txtSearch").val(),
+                    method: "get",
+                    dataType:"json"
+                }).done(function (response) {
+                    var audio = new Audio('../../../assets/audio/beep.mp3');
+                    audio.play();
+                   $.notify({
+                            // options
+                            message: response.message,
+                            title: 'Barcode Servis Mesajı'
+                    },
+                    {
+                        // settings
+                        type: response.success ? "success" : "danger"
+                    });
+                    if (response.data != null) {
+                        var data = response.data;
+                        $("#ProductName").val(data.Name);
+                        $("#Barcode").val(data.Barcode);
+                        $("#SalesPrice").val(data.Price.toString().replace(".",","));
+                        $("#txtSearch").val("");
+                    }
+                });
+            });
+        })
+    </script>
+}
