@@ -40,6 +40,8 @@
                         <div class="p-y-lg text-center">
                             <h1 class="display-2">My Account Login</h1>
                             <p class="text-muted">Unlimited ideas. Unlimited power. Unlimited joy. Unlimited opportunities.</p>
+                            <p class="text-muted">@Html.ValidationSummary()</p>
+                            <h3>@TempData["Message"]</h3>
                         </div>
                         <!-- End Section Content -->
                     </div>
@@ -56,6 +58,7 @@
                                     <div class="card-block">
                                         @using (Html.BeginForm("Login", "Account", FormMethod.Post))
                                         {
+                                            @Html.AntiForgeryToken()
                                             <div class="form-group">
                                                 @Html.LabelFor(x => x.LoginViewModel.UserName, new { @class = "sr-only" })
                                                 @Html.TextBoxFor(x => x.LoginViewModel.UserName, new { @class = "form-control", placeholder = "Kullanıcı Adı" })
@@ -86,6 +89,7 @@
 
                                         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
                                         {
+                                            @Html.AntiForgeryToken()
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     @Html.LabelFor(x => x.RegisterViewModel.Name, new { @class = "sr-only" })
