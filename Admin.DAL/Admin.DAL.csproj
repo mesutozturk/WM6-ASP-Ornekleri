@@ -75,14 +75,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201902011343039_a.cs" />
-    <Compile Include="Migrations\201902011343039_a.Designer.cs">
-      <DependentUpon>201902011343039_a.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902040640217_identity.cs" />
-    <Compile Include="Migrations\201902040640217_identity.Designer.cs">
-      <DependentUpon>201902040640217_identity.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,14 +88,6 @@
       <Project>{ddb262fb-0e69-4c0b-a6c6-c03f952d3914}</Project>
       <Name>Admin.Models</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902011343039_a.resx">
-      <DependentUpon>201902011343039_a.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902040640217_identity.resx">
-      <DependentUpon>201902040640217_identity.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
