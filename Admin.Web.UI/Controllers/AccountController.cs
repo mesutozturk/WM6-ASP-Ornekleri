@@ -237,6 +237,7 @@ namespace Admin.Web.UI.Controllers
                 model.UserProfileViewModel = data.UserProfileViewModel;
                 if (!ModelState.IsValid)
                 {
+                    model.ChangePasswordViewModel= new ChangePasswordViewModel();
                     return View("UserProfile", model);
                 }
                 
@@ -258,6 +259,7 @@ namespace Admin.Web.UI.Controllers
                         err += resultError + " ";
                     }
                     ModelState.AddModelError("", err);
+                    model.ChangePasswordViewModel = new ChangePasswordViewModel();
                     return View("UserProfile", model);
                 }
             }
