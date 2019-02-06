@@ -273,6 +273,7 @@
     <Content Include="Views\Category\Update.cshtml" />
     <Content Include="Views\Product\Add.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
