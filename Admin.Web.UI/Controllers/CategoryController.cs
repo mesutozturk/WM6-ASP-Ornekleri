@@ -10,7 +10,6 @@ using Admin.Models.ViewModels;
 
 namespace Admin.Web.UI.Controllers
 {
-    [Authorize]
     public class CategoryController : BaseController
     {
         // GET: Category
@@ -19,6 +18,7 @@ namespace Admin.Web.UI.Controllers
             return View();
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Add()
         {
             ViewBag.CategoryList = GetCategorySelectList();
@@ -28,6 +28,7 @@ namespace Admin.Web.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Add(Category model)
         {
             try
@@ -74,6 +75,7 @@ namespace Admin.Web.UI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Update(int id = 0)
         {
             ViewBag.CategoryList = GetCategorySelectList();
@@ -95,6 +97,7 @@ namespace Admin.Web.UI.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Update(Category model)
         {
             try

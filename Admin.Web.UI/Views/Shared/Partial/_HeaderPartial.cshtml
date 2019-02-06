@@ -1,4 +1,5 @@
-﻿<header class="app-layout-header">
+﻿@using Admin.BLL.Identity
+<header class="app-layout-header">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -73,7 +74,7 @@
                     </li>
                     <li class="dropdown dropdown-profile">
                         <a href="javascript:void(0)" data-toggle="dropdown">
-                            <span class="m-r-sm">John Doe <span class="caret"></span></span>
+                            <span class="m-r-sm">@MembershipTools.GetNameSurname(null)<span class="caret"></span></span>
                             <img class="img-avatar img-avatar-48" src="~/assets/img/avatars/avatar3.jpg" alt="User profile pic" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -84,10 +85,7 @@
                                 <a href="base_pages_profile.html">Profile</a>
                             </li>
                             <li>
-                                <a href="base_pages_profile.html"><span class="badge badge-success pull-right">3</span> Blog</a>
-                            </li>
-                            <li>
-                                <a href="frontend_login_signup.html">Logout</a>
+                                <a href="@Url.Action("Logout","Account")">Logout</a>
                             </li>
                         </ul>
                     </li>

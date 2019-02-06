@@ -133,7 +133,7 @@ namespace Admin.Web.UI.Controllers
         {
             var authManager = HttpContext.GetOwinContext().Authentication;
             authManager.SignOut();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Account");
         }
     }
 }
