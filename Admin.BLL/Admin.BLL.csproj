@@ -90,6 +90,8 @@
     <Compile Include="Repository\ProductRepo.cs" />
     <Compile Include="Repository\RepositoryBase.cs" />
     <Compile Include="Services\BarcodeService.cs" />
+    <Compile Include="Services\Senders\EmailService.cs" />
+    <Compile Include="Services\Senders\IMessageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

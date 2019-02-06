@@ -81,6 +81,7 @@
     <Compile Include="Entities\Invoice.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Product.cs" />
+    <Compile Include="Enums\MessageStates.cs" />
     <Compile Include="Enums\OrderTypes.cs" />
     <Compile Include="Enums\ProductTypes.cs" />
     <Compile Include="IdentityModels\Role.cs" />
