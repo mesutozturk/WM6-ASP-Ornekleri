@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Admin.Web.UI.Controllers
 {
@@ -13,7 +9,7 @@ namespace Admin.Web.UI.Controllers
         {
             return View();
         }
-        
+        [AllowAnonymous]
         public ActionResult Error()
         {
 

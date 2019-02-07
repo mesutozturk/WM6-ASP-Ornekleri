@@ -275,6 +275,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
     <Content Include="Views\Account\Activation.cshtml" />
+    <Content Include="Views\Account\RecoverPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

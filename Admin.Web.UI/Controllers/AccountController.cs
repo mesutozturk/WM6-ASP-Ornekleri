@@ -321,5 +321,62 @@ namespace Admin.Web.UI.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<ActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        {
+            try
+            {
+                var userStore = NewUserStore();
+                var userManager = NewUserManager();
+                var user = await userStore.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, $"{model.Email} mail adresine kayıtlı bir üyeliğe erişilemedi");
+                    return View(model);
+                }
+                
+                var newPassword = StringHelpers.GetCode().Substring(0, 6);
+                await userStore.SetPasswordHashAsync(user, userManager.PasswordHasher.HashPassword(newPassword));
+                var result = userStore.Context.SaveChanges();
+                if (result == 0)
+                {
+                    TempData["Model"] = new ErrorViewModel()
+                    {
+                        Text = $"Bir hata oluştu",
+                        ActionName = "RecoverPassword",
+                        ControllerName = "Account",
+                        ErrorCode = 500
+                    };
+                    return RedirectToAction("Error", "Home");
+                }
+
+                var emailService = new EmailService();
+                var body = $"Merhaba <b>{user.Name} {user.Surname}</b><br>Hesabınızın parolası sıfırlanmıştır<br> Yeni parolanız: <b>{newPassword}</b> <p>Yukarıdaki parolayı kullanarak sistemize giriş yapabilirsiniz.</p>";
+                emailService.Send(new IdentityMessage() { Body = body, Subject = $"{user.UserName} Şifre Kurtarma" }, user.Email);
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "RecoverPassword",
+                    ControllerName = "Account",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View();
+        }
     }
 }

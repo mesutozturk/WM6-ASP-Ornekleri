@@ -93,6 +93,7 @@
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ProfilePasswordViewModel.cs" />
+    <Compile Include="ViewModels\RecoverPasswordViewModel.cs" />
     <Compile Include="ViewModels\RegisterLoginViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
