@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Admin.BLL.Helpers;
+using Admin.BLL.Identity;
 using Admin.BLL.Services.Senders;
+using Admin.Web.UI.Helpers;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using static Admin.BLL.Identity.MembershipTools;
 
 namespace Admin.Web.UI.Controllers
 {
+    [RequireHttps]
     public class AccountController : Controller
     {
         // GET: Account
@@ -377,6 +381,48 @@ namespace Admin.Web.UI.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            Session["provider"] = provider;
+            Session["returnUrl"] = returnUrl;
+            return new ChallengeResult(provider, returnUrl);
+        }
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        {
+
+            var loginInfo = await HttpContext.GetOwinContext().Authentication.GetExternalLoginInfoAsync();
+
+            if (loginInfo == null)
+            {
+                return Redirect("/account");
+            }
+
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            var userManager = MembershipTools.NewUserManager();
+            var signInManager = new SignInManager<User, string>(userManager, authManager);
+
+            var status = await signInManager.ExternalSignInAsync(loginInfo, true);
+            switch (status)
+            {
+                case SignInStatus.Success:
+                    if (string.IsNullOrEmpty(returnUrl))
+                        return RedirectToAction("Index", "Home");
+                    else
+                        return Redirect(returnUrl);
+                case SignInStatus.Failure:
+                    //ilk defa gelen kişi kayıt yönergelerini tamamlatacağız
+                    ViewBag.ReturnUrl = returnUrl;
+                    ViewBag.Message = "Kayıt işleminizi tamamlayın";
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel() { Email = loginInfo.Email, UserName = loginInfo.DefaultUserName.ToLower().Replace(" ", "") });
+            }
+
+            return Redirect("/");
         }
     }
 }

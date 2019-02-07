@@ -40,6 +40,24 @@
                         <div class="p-y-lg text-center">
                             <h1 class="display-2">My Account Login</h1>
                             <p class="text-muted">Unlimited ideas. Unlimited power. Unlimited joy. Unlimited opportunities.</p>
+                            <form action="@Url.Action("ExternalLogin","Account")" method="post">
+                                @Html.AntiForgeryToken()
+                                <div class="access_social">
+                                    <input type="hidden" name="returnUrl" value="/Account/ExternalLoginCallback" />
+                                    <button type="submit" id="Facebook" name="provider" value="Facebook" class="btn btn-info">
+                                        <i class="fa fa-facebook m-r-sm"></i>
+                                        Facebook ile Kayıt Ol
+                                    </button>
+                                    <button type="submit" id="Google" name="provider" value="Google" class="btn btn-danger">
+                                        <i class="fa fa-google-plus m-r-sm"></i>
+                                        Google ile Kayıt Ol
+                                    </button>
+                                    <button type="submit" id="LinkedIn" name="provider" value="LinkedIn" class="btn btn-info">
+                                        <i class="fa fa-linkedin-square m-r-sm"></i>
+                                        Linkedin ile Kayıt Ol
+                                    </button>
+                                </div>
+                            </form>
                             <p class="text-muted">@Html.ValidationSummary()</p>
                             <h3>@TempData["Message"]</h3>
                         </div>

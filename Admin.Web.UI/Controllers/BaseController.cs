@@ -9,6 +9,7 @@ using Admin.Models.Enums;
 namespace Admin.Web.UI.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class BaseController : Controller
     {
         protected List<SelectListItem> GetCategorySelectList()
