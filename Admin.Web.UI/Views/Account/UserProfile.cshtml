@@ -9,7 +9,7 @@
     <div class="card-profile-img bg-img" style="background-image: url(~/assets/img/misc/base_pages_profile_header_bg.jpg);">
     </div>
     <div class="card-block card-profile-block text-xs-center text-sm-left">
-        <img class="img-avatar img-avatar-96" src="~/assets/img/avatars/avatar3.jpg" alt="" />
+        <img class="img-avatar img-avatar-96" src="@Model.UserProfileViewModel.AvatarPath" alt="" />
         <div class="profile-info font-500">
             @MembershipTools.GetNameSurname(null) - @Model.UserProfileViewModel.UserName
             <div class="small text-muted m-t-xs">@Model.UserProfileViewModel.Email</div>
@@ -54,7 +54,7 @@
                 <!-- Profile tab 1 -->
                 <div class="tab-pane fade in active" id="profile-tab1">
 
-                    @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "fieldset" }))
+                    @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "fieldset", enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(x => x.UserProfileViewModel.Id)
@@ -80,6 +80,12 @@
                                 @Html.TextBoxFor(x => x.UserProfileViewModel.PhoneNumber, new { @class = "form-control" })
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <div class="col-xs-6">
+                                @Html.LabelFor(x => x.UserProfileViewModel.PostedFile)
+                                @Html.TextBoxFor(x => x.UserProfileViewModel.PostedFile, new { @class = "form-control", type = "file", multiple = false })
+                            </div>
+                        </div>
                         <div class="row narrow-gutter">
                             <div class="col-xs-6">
                                 <button type="submit" class="btn btn-app btn-block">Güncelle</button>
@@ -97,7 +103,7 @@
                         <div class="form-group row">
                             <div class="col-xs-6">
                                 @Html.LabelFor(x => x.ChangePasswordViewModel.OldPassword)
-                                @Html.TextBoxFor(x => x.ChangePasswordViewModel.OldPassword, new { @class = "form-control",type="password" })
+                                @Html.TextBoxFor(x => x.ChangePasswordViewModel.OldPassword, new { @class = "form-control", type = "password" })
                             </div>
                         </div>
                         <div class="form-group row">
