@@ -45,10 +45,10 @@
                         <td>@Html.CheckBox("EmailConfirm", data.EmailConfirmed, new { disabled = "true" })</td>
                         <td class="text-center">
                             <div class="btn-group">
-                                <button class="btn btn-xs btn-default btnsendcode" name="@data.Id" type="button" data-toggle="tooltip" title="Send Activation Code">
+                                <button class="btn btn-xs btn-default btnsendcode" name="@data.Id" type="button" title="Send Activation Code">
                                     <i class="ion-android-mail"></i>
                                 </button>
-                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Remove Client">
+                                <button class="btn btn-xs btn-default" type="button" title="Remove Client">
                                     <i class="ion-close"></i>
                                 </button>
                             </div>
@@ -70,6 +70,7 @@
 {
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.3.1/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/r-2.2.2/sc-1.5.0/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <script src="~/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
@@ -84,8 +85,17 @@
                     method: "post",
                     dataType: "json",
                     data: {id:id}
-                }).done(function(e) {
+                }).done(function (e) {
                     console.log(e);
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Aktivasyon Kodu'
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
                 });
             });
 
