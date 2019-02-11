@@ -93,7 +93,7 @@ namespace Admin.Web.UI.Controllers
                 await userStore.SetPasswordHashAsync(user, NewUserManager().PasswordHasher.HashPassword(newPassword));
                 await userStore.UpdateAsync(user);
                 userStore.Context.SaveChanges();
-
+                
                 string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                  (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
                 var emailService = new EmailService();
@@ -136,7 +136,7 @@ namespace Admin.Web.UI.Controllers
 
                 ViewBag.RoleList = roller;
 
-                
+
                 var model = new UserProfileViewModel()
                 {
                     AvatarPath = user.AvatarPath,
@@ -224,9 +224,34 @@ namespace Admin.Web.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUserRoles(List<string> model)
+        public ActionResult EditUserRoles(UpdateUserRoleViewModel model)
         {
-            return RedirectToAction("Index");
+            //var userId = Request.Form[1].ToString();
+            //var rolIdler = Request.Form[2].ToString().Split(',');
+            var userId = model.Id;
+            var rolIdler = model.Roles;
+            var roleManager = NewRoleManager();
+            var seciliRoller = new string[rolIdler.Count];
+            for (var i = 0; i < rolIdler.Count; i++)
+            {
+                var rid = rolIdler[i];
+                seciliRoller[i] = roleManager.FindById(rid).Name;
+            }
+
+            var userManager = NewUserManager();
+            var user = userManager.FindById(userId);
+
+            foreach (var identityUserRole in user.Roles.ToList())
+            {
+                userManager.RemoveFromRole(userId, roleManager.FindById(identityUserRole.RoleId).Name);
+            }
+
+            for (int i = 0; i < seciliRoller.Length; i++)
+            {
+                userManager.AddToRole(userId, seciliRoller[i]);
+            }
+
+            return RedirectToAction("EditUser", new { id = userId });
         }
     }
 }

@@ -69,6 +69,7 @@
                 @using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x=>x.Id)
                     @Html.Label("Roles", new { @class = "col-md-3 control-label" })
                     <div class="col-md-7">
                         @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.RoleList, new { @class = "js-select2 form-control", size = "1", multiple = "multiple" })
