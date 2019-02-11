@@ -48,8 +48,11 @@
                                 <button class="btn btn-xs btn-default btnsendcode" name="@data.Id" type="button" title="Send Activation Code">
                                     <i class="ion-android-mail"></i>
                                 </button>
+                                <button class="btn btn-xs btn-default btnsendpassword" name="@data.Id" type="button" title="Send Password">
+                                    <i class="ion-key"></i>
+                                </button>
                                 <button class="btn btn-xs btn-default" type="button" title="Remove Client">
-                                    <i class="ion-close"></i>
+                                    <i class="ion-edit"></i>
                                 </button>
                             </div>
                         </td>
@@ -78,6 +81,26 @@
 
     <script>
         $(function () {
+            $(".btnsendpassword").click(function() {
+                var id = this.name;
+                $.ajax({
+                    url: "@Url.Action("SendPassword","Admin")",
+                    method: "post",
+                    dataType: "json",
+                    data: {id:id}
+                }).done(function (e) {
+                    console.log(e);
+                    $.notify({
+                            // options
+                            message: e.message,
+                            title: 'Şifre'
+                        },
+                        {
+                            // settings
+                            type: e.success ? "success" : "danger"
+                        });
+                });
+            });
             $(".btnsendcode").click(function() {
                 var id =this.name;
                 $.ajax({
