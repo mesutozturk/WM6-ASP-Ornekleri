@@ -35,6 +35,12 @@ namespace Admin.Web.UI.Controllers
                         success = false
                     });
                 }
+                if (user.EmailConfirmed)
+                    return Json(new ResponseData()
+                    {
+                        message = "Kullanıcı zaten epostasını onaylamış",
+                        success = false
+                    });
 
                 user.ActivationCode = StringHelpers.GetCode();
                 await userStore.UpdateAsync(user);
