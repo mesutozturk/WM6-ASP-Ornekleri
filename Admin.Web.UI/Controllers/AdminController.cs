@@ -3,6 +3,7 @@ using Admin.BLL.Services.Senders;
 using Admin.Models.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -122,7 +123,20 @@ namespace Admin.Web.UI.Controllers
                 var user = NewUserManager().FindById(id);
                 if (user == null)
                     return RedirectToAction("Index");
-                ViewBag.RoleList = GetRoleList();
+
+                var roller = GetRoleList();
+                foreach (var role in user.Roles)
+                {
+                    foreach (var selectListItem in roller)
+                    {
+                        if (selectListItem.Value == role.RoleId)
+                            selectListItem.Selected = true;
+                    }
+                }
+
+                ViewBag.RoleList = roller;
+
+                
                 var model = new UserProfileViewModel()
                 {
                     AvatarPath = user.AvatarPath,
@@ -206,6 +220,13 @@ namespace Admin.Web.UI.Controllers
                 };
                 return RedirectToAction("Error", "Home");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUserRoles(List<string> model)
+        {
+            return RedirectToAction("Index");
         }
     }
 }

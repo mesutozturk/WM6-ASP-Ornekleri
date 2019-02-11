@@ -3,7 +3,11 @@
     ViewBag.Title = "EditUser";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-
+@section top
+{
+    <link rel="stylesheet" href="~/assets/js/plugins/select2/select2.min.css" />
+    <link rel="stylesheet" href="~/assets/js/plugins/select2/select2-bootstrap.css" />
+}
 <div class="col-md-6">
     <h3>@TempData["Message"]</h3>
     @Html.ValidationSummary()
@@ -13,7 +17,7 @@
             <!-- Profile tab 1 -->
             <div class="tab-pane fade in active">
 
-                @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post, new {@class = "fieldset", enctype = "multipart/form-data"}))
+                @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post, new { @class = "fieldset", enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(x => x.Id)
@@ -22,27 +26,27 @@
                     <div class="form-group row">
                         <div class="col-xs-6">
                             @Html.LabelFor(x => x.Name)
-                            @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
                         </div>
                         <div class="col-xs-6">
                             @Html.LabelFor(x => x.Surname)
-                            @Html.TextBoxFor(x => x.Surname, new {@class = "form-control"})
+                            @Html.TextBoxFor(x => x.Surname, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-xs-6">
                             @Html.LabelFor(x => x.Email)
-                            @Html.TextBoxFor(x => x.Email, new {@class = "form-control", type = "email"})
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email" })
                         </div>
                         <div class="col-xs-6">
                             @Html.LabelFor(x => x.PhoneNumber)
-                            @Html.TextBoxFor(x => x.PhoneNumber, new {@class = "form-control"})
+                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-xs-6">
                             @Html.LabelFor(x => x.PostedFile)
-                            @Html.TextBoxFor(x => x.PostedFile, new {@class = "form-control", type = "file", multiple = false})
+                            @Html.TextBoxFor(x => x.PostedFile, new { @class = "form-control", type = "file", multiple = false })
                         </div>
                     </div>
                     <div class="row narrow-gutter">
@@ -58,3 +62,33 @@
     </div>
     <!-- .card -->
 </div>
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-block">
+            <div class="form-group">
+                @using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Label("Roles", new { @class = "col-md-3 control-label" })
+                    <div class="col-md-7">
+                        @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.RoleList, new { @class = "js-select2 form-control", size = "1", multiple = "multiple" })
+                    </div>
+                    <input type="submit" value="Rol Güncelle" class="btn btn-action" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+@section bottom
+{
+    <script src="~/assets/js/plugins/select2/select2.full.min.js"></script>
+    <script src="~/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    <script>
+        $(function () {
+            App.initHelpers(['select2']);
+
+        });
+    </script>
+}
