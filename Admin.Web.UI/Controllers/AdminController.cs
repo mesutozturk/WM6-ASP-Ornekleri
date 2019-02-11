@@ -1,15 +1,14 @@
 ﻿using Admin.BLL.Helpers;
 using Admin.BLL.Services.Senders;
 using Admin.Models.Models;
+using Admin.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using Admin.Models.ViewModels;
 using static Admin.BLL.Identity.MembershipTools;
 
 namespace Admin.Web.UI.Controllers
