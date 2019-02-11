@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Admin.BLL.Helpers;
 using Admin.Models.Entities;
+using Admin.Models.Enums;
 using Admin.Models.ViewModels;
 
 namespace Admin.Web.UI.Controllers
