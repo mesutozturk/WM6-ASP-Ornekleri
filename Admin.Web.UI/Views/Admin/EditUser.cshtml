@@ -1,0 +1,60 @@
+﻿@model Admin.Models.ViewModels.UserProfileViewModel
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="col-md-6">
+    <h3>@TempData["Message"]</h3>
+    @Html.ValidationSummary()
+    <div class="card">
+        <img src="@(string.IsNullOrEmpty(Model.AvatarPath)?"/assets/img/avatars/avatar3.jpg":Model.AvatarPath)" class="img-avatar-96" width="100" height="100" />
+        <div class="card-block tab-content">
+            <!-- Profile tab 1 -->
+            <div class="tab-pane fade in active">
+
+                @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post, new {@class = "fieldset", enctype = "multipart/form-data"}))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.UserName)
+                    <h4 class="m-t-sm m-b">Profil Bilgileri</h4>
+                    <div class="form-group row">
+                        <div class="col-xs-6">
+                            @Html.LabelFor(x => x.Name)
+                            @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
+                        </div>
+                        <div class="col-xs-6">
+                            @Html.LabelFor(x => x.Surname)
+                            @Html.TextBoxFor(x => x.Surname, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-6">
+                            @Html.LabelFor(x => x.Email)
+                            @Html.TextBoxFor(x => x.Email, new {@class = "form-control", type = "email"})
+                        </div>
+                        <div class="col-xs-6">
+                            @Html.LabelFor(x => x.PhoneNumber)
+                            @Html.TextBoxFor(x => x.PhoneNumber, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-6">
+                            @Html.LabelFor(x => x.PostedFile)
+                            @Html.TextBoxFor(x => x.PostedFile, new {@class = "form-control", type = "file", multiple = false})
+                        </div>
+                    </div>
+                    <div class="row narrow-gutter">
+                        <div class="col-xs-6">
+                            <button type="submit" class="btn btn-app btn-block">Güncelle</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- End profile tab 1 -->
+        </div>
+        <!-- .card-block .tab-content -->
+    </div>
+    <!-- .card -->
+</div>

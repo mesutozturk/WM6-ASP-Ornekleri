@@ -3,9 +3,12 @@ using Admin.BLL.Services.Senders;
 using Admin.Models.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using Admin.Models.ViewModels;
 using static Admin.BLL.Identity.MembershipTools;
 
 namespace Admin.Web.UI.Controllers
@@ -109,6 +112,99 @@ namespace Admin.Web.UI.Controllers
                     message = $"Bir hata oluştu: {ex.Message}",
                     success = false
                 });
+            }
+        }
+        [HttpGet]
+        public ActionResult EditUser(string id)
+        {
+            try
+            {
+                var user = NewUserManager().FindById(id);
+                if (user == null)
+                    return RedirectToAction("Index");
+                ViewBag.RoleList = GetRoleList();
+                var model = new UserProfileViewModel()
+                {
+                    AvatarPath = user.AvatarPath,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Surname = user.Surname,
+                    Id = user.Id,
+                    PhoneNumber = user.PhoneNumber,
+                    UserName = user.UserName
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "Index",
+                    ControllerName = "Admin",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditUser(UserProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                var userManager = NewUserManager();
+                var user = await userManager.FindByIdAsync(model.Id);
+
+                user.Name = model.Name;
+                user.Surname = model.Surname;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Email = model.Email;
+
+                if (model.PostedFile != null &&
+                    model.PostedFile.ContentLength > 0)
+                {
+                    var file = model.PostedFile;
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    string extName = Path.GetExtension(file.FileName);
+                    fileName = StringHelpers.UrlFormatConverter(fileName);
+                    fileName += StringHelpers.GetCode();
+                    var klasoryolu = Server.MapPath("~/Upload/");
+                    var dosyayolu = Server.MapPath("~/Upload/") + fileName + extName;
+
+                    if (!Directory.Exists(klasoryolu))
+                        Directory.CreateDirectory(klasoryolu);
+                    file.SaveAs(dosyayolu);
+
+                    WebImage img = new WebImage(dosyayolu);
+                    img.Resize(250, 250, false);
+                    img.AddTextWatermark("Wissen");
+                    img.Save(dosyayolu);
+                    var oldPath = user.AvatarPath;
+                    user.AvatarPath = "/Upload/" + fileName + extName;
+
+                    System.IO.File.Delete(Server.MapPath(oldPath));
+                }
+                await userManager.UpdateAsync(user);
+                TempData["Message"] = "Güncelleme işlemi başarılı";
+                return RedirectToAction("EditUser", new { id = user.Id });
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "Index",
+                    ControllerName = "Admin",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
             }
         }
     }

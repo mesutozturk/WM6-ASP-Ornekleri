@@ -51,9 +51,9 @@
                                 <button class="btn btn-xs btn-default btnsendpassword" name="@data.Id" type="button" title="Send Password">
                                     <i class="ion-key"></i>
                                 </button>
-                                <button class="btn btn-xs btn-default" type="button" title="Remove Client">
+                                <a href="@Url.Action("EditUser", "Admin", new {id = data.Id})" class="btn btn-xs btn-default" title="Edit User">
                                     <i class="ion-edit"></i>
-                                </button>
+                                </a>
                             </div>
                         </td>
                     </tr>
