@@ -1,4 +1,5 @@
-﻿@model List<Kuzey.Models.ViewModels.CategoryViewModel>
+﻿@using Kuzey.BLL.Helpers
+@model List<Kuzey.Models.ViewModels.CategoryViewModel>
 @{
     ViewBag.Title = "Index";
 }
@@ -9,5 +10,15 @@
 {
     @Html.TextBox("CategoryName")
     @Html.TextBox("Description")
-    <input type="submit" value="Ekle"/>
+    <input type="submit" value="Ekle" />
+}
+
+@foreach (var item in Model)
+{
+    <dt>@item.CategoryName @item.ProductCount</dt>
+    <dl>
+        <a href="@Url.Action("Detail", new {id = item.CategoryID, kategoriadi = StringHelpers.UrlFormatConverter(item.CategoryName)})">
+            Detay
+        </a>
+    </dl>
 }
