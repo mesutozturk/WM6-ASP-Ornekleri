@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Kuzey.Models.Entities;
+using System;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kuzey.Models.Entities;
 
 namespace Kuzey.DAL
 {

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using Kuzey.BLL.Repository;
 using Kuzey.Models.Entities;
 using Kuzey.Models.ViewModels;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Kuzey.Web.Controllers
 {
