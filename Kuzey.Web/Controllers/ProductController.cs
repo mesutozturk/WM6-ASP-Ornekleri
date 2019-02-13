@@ -10,9 +10,11 @@ using Kuzey.Models.ViewModels;
 
 namespace Kuzey.Web.Controllers
 {
+    [RoutePrefix("kampanyali-urunler")]
     public class ProductController : Controller
     {
         // GET: Product
+        [Route]
         public ActionResult Index()
         {
             var data = new ProductRepo().GetAll().Select(x => Mapper.Map<ProductViewModel>(x)).ToList();
@@ -24,6 +26,17 @@ namespace Kuzey.Web.Controllers
         {
             new ProductRepo().Insert(Mapper.Map<ProductViewModel, Product>(model));
             return View();
+        }
+
+        [HttpGet]
+        [Route("~/en-ucuz-urun/{kategoriadi}-{urunadi}/{id?}")]
+        public ActionResult Detail(int id = 0)
+        {
+            var data = new ProductRepo().GetById(id);
+            if (data == null)
+                RedirectToAction("Index");
+            var model = Mapper.Map<ProductViewModel>(data);
+            return View(model);
         }
     }
 }

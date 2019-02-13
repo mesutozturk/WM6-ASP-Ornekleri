@@ -31,7 +31,7 @@ namespace Kuzey.Web.App_Start
         private static void ProductMapping(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<Product, ProductViewModel>()
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(x => x.Category.CategoryName))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom((s, d) => s.Category == null ? "Kategorisiz" : s.Category.CategoryName))
                 .ReverseMap();
         }
 

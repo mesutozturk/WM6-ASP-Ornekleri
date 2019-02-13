@@ -1,7 +1,15 @@
-﻿
+﻿@using Kuzey.BLL.Helpers
+@model List<Kuzey.Models.ViewModels.ProductViewModel>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
-
+@foreach (var item in Model)
+{
+    <dt>@item.ProductName</dt>
+    <dl>
+        @item.UnitPrice -
+        <a href="@Url.Action("Detail","Product",new {id=item.ProductID,kategoriadi=StringHelpers.UrlFormatConverter(item.CategoryName),urunadi=StringHelpers.UrlFormatConverter(item.ProductName)})">Detay</a>
+    </dl>
+}

@@ -25,11 +25,19 @@
             sonuc = sonuc.Replace("Ş", "S");
             sonuc = sonuc.Replace("Ç", "C");
             sonuc = sonuc.Replace("Ğ", "G");
+            sonuc = sonuc.Replace("/", "-");
+            sonuc = sonuc.Replace(@"\", "-");
             sonuc = sonuc.Replace("|", "");
             sonuc = sonuc.Replace(".", "-");
             sonuc = sonuc.Replace("?", "-");
             sonuc = sonuc.Replace(";", "-");
             sonuc = sonuc.Replace("#", "-sharp");
+            sonuc = sonuc.Replace("ä", "a");
+            sonuc = sonuc.Replace("á", "a");
+            sonuc = sonuc.Replace("é", "e");
+            sonuc = sonuc.Replace("ß", "ss");
+            sonuc = sonuc.Replace("æ", "ae");
+
 
             return sonuc;
         }
