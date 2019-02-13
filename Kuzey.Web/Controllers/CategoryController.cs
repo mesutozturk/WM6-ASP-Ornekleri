@@ -28,7 +28,7 @@ namespace Kuzey.Web.Controllers
 
         [HttpGet]
         [Route("~/Detay/{kategoriadi}/{id?}")]
-        public ActionResult Detail(string kategoriadi, int id = 0)
+        public ActionResult Detail(int id = 0)
         {
             var model = new CategoryRepo().GetById(id);
             var data = Mapper.Map<CategoryViewModel>(model);
