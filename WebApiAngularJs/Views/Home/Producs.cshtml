@@ -15,13 +15,24 @@
 <body>
     <div class="main" ng-controller="ProductCtrl">
         <form name="urunekle">
-            <input type="text" placeholder="Ürün Adı" ng-model="yeni.urunAdi" /><br />
-            <input type="number" placeholder="Fiyat" ng-model="yeni.fiyat" /><br />
-            <input type="button" value="Ekle" ng-click="ekle()" />
+            <input type="text" placeholder="Ürün Adı" name="urunadi" ng-model="yeni.urunAdi" required minlength="3" /><br />
+
+            <label style="color: red;" ng-show="!urunekle.urunadi.$valid && urunekle.urunadi.$dirty">Lütfen en az 3 karakter giriniz</label><br />
+
+            <input type="number" name="fiyat" placeholder="Fiyat" ng-model="yeni.fiyat" required min="0.1" max="999" /><br />
+
+            <label style="color: red;" ng-show="urunekle.fiyat.$invalid && urunekle.fiyat.$dirty">Lütfen 0dan büyük 999dan küçük bir sayı giriniz</label><br />
+
+            <input type="button" value="Ekle" ng-click="ekle()" ng-show="urunekle.$valid" />
+
         </form>
-        <br/>
+        <br />
+        <input type="text" placeholder="Ara..." ng-model="txtara.urunAdi" />
         <ul>
-            <li ng-repeat="item in urunler track by item.id">{{item.urunAdi}} - {{item.fiyat}} ₺</li>
+            <li ng-repeat="item in urunler | filter: txtara track by item.id ">
+                {{item.urunAdi}} - {{item.fiyat}} ₺
+                <input type="button" value="Sil" ng-click="sil(item.id)"/>
+            </li>
         </ul>
     </div>
 </body>

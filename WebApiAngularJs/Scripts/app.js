@@ -21,6 +21,17 @@ app.controller("ProductCtrl", function ($scope) {
         localStorage.setItem("urunler", JSON.stringify($scope.urunler));
     };
 
+    $scope.sil = function(id) {
+        for (var i = 0; i < $scope.urunler.length; i++) {
+            var data = $scope.urunler[i];
+            if (id === data.id) {
+                $scope.urunler.splice(i, 1);
+                break;
+            }
+        }
+        localStorage.setItem("urunler", JSON.stringify($scope.urunler));
+    };
+
     function guid() {
         function S4() {
             return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
