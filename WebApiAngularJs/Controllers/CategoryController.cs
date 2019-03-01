@@ -10,11 +10,12 @@ namespace WebApiAngularJs.Controllers
 {
     public class CategoryController : ApiController
     {
+        MyCon db = new MyCon();
+        [HttpGet]
         public IHttpActionResult GetAll()
         {
             try
             {
-                MyCon db = new MyCon();
                 return Ok(new
                 {
                     success = true,
@@ -24,6 +25,58 @@ namespace WebApiAngularJs.Controllers
                         CategoryName = x.CategoryName,
                         Description = x.Description
                     }).ToList()
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Bir hata oluştu {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        public IHttpActionResult Get(int id = 0)
+        {
+            try
+            {
+                var cat = db.Categories.Find(id);
+                if (cat == null)
+                {
+                    return NotFound();
+                }
+
+                var data = new CategoryViewModel()
+                {
+                    CategoryID = cat.CategoryID,
+                    CategoryName = cat.CategoryName,
+                    Description = cat.Description
+                };
+                return Ok(new
+                {
+                    success = true,
+                    data = data
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Bir hata oluştu {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult Add([FromBody]CategoryViewModel model)
+        {
+            try
+            {
+                db.Categories.Add(new Category()
+                {
+                    CategoryName = model.CategoryName,
+                    Description = model.Description,
+                });
+                db.SaveChanges();
+                return Ok(new
+                {
+                    success = true,
+                    message = "Kategori ekleme işlemi başarılı"
                 });
             }
             catch (Exception ex)

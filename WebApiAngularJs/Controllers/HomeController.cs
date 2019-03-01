@@ -18,5 +18,6 @@ namespace WebApiAngularJs.Controllers
         {
             return View();
         }
+
     }
 }
