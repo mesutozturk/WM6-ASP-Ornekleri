@@ -11,6 +11,9 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
 using System.Web;
+using Admin.Web.UI.Controllers.WebApi.Auth;
+using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.OAuth;
 
 [assembly: OwinStartup(typeof(Admin.Web.UI.App_Start.Startup))]
 
@@ -27,9 +30,26 @@ namespace Admin.Web.UI.App_Start
                 LoginPath = new PathString("/Account")
             });
 
+            ConfigureOAuth(app);
+            app.UseCors(CorsOptions.AllowAll);
+
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
             ConfigureGoogle(app);
             ConfigureFacebook(app);
+        }
+
+        private void ConfigureOAuth(IAppBuilder app)
+        {
+            var oAuthAuthorizationServerOptions = new OAuthAuthorizationServerOptions()
+            {
+                TokenEndpointPath = new PathString("/token"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(9999),
+                AllowInsecureHttp = true,
+                Provider = new Provider()
+            };
+
+            app.UseOAuthAuthorizationServer(oAuthAuthorizationServerOptions);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
 
         private void ConfigureFacebook(IAppBuilder app)
