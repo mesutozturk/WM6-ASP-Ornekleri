@@ -23,27 +23,36 @@
         <div class="row">
             <div class="col">
                 <form name="ekleform">
-                    <input type="text" class="form-control" ng-model="yeni.CategoryName" placeholder="Kategori Adı" /><br />
-                    <input type="text" class="form-control" ng-model="yeni.Description" placeholder="Açıklama" /><br />
-                    <input type="button" value="Ekle" class="btn btn-success" ng-click="ekle()" />
+                    <input type="hidden" ng-model="yeni.CategoryID"/>
+                    <input type="text" class="form-control" ng-model="yeni.CategoryName" placeholder="Kategori Adı"/><br/>
+                    <input type="text" class="form-control" ng-model="yeni.Description" placeholder="Açıklama"/><br/>
+                    <input type="button" value="Ekle" class="btn btn-success" ng-click="ekle()" ng-show="!guncelleMi"/>
+
+                    <input type="button" value="Güncelle" class="btn btn-info" ng-click="guncelle()" ng-show="guncelleMi"/>
                 </form>
             </div>
         </div>
+        <input type="search" placeholder="Ara.." class="form-control" ng-model="txtara"/>
         <div class="row">
             <div class="col">
                 <table class="table table-dark">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Kategori Adı</th>
-                        <th>Açıklama</th>
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Kategori Adı</th>
+                            <th>Açıklama</th>
+                            <th>İşlem</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="(key,item) in categoryList track by item.CategoryID">
+                        <tr ng-repeat="(key,item) in categoryList | filter:txtara track by item.CategoryID">
                             <th scope="row">{{key+1}}</th>
                             <td>{{item.CategoryName}}</td>
                             <td>{{item.Description}}</td>
+                            <td>
+                                <input type="button" value="Sil" class="btn btn-danger" ng-click="sil(item.CategoryID)" />
+                                <input type="button" value="Güncelle" class="btn btn-warning" ng-click="getir(item)" />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
