@@ -1,7 +1,7 @@
 ﻿/// <reference path="angular.js" />
 
 var app = angular.module("myApp", []);
-
+var host = "http://localhost:5855/";
 app.controller("ProductCtrl", function ($scope) {
     $scope.urunler = [];
     $scope.sepetList = [];
@@ -80,6 +80,51 @@ app.controller("ProductCtrl", function ($scope) {
         // then to call it, plus stitch in '4' in the third group
         return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
     }
+
+    init();
+});
+app.controller("CategoryCtrl", function ($scope, $http) {
+    $scope.categoryList = [];
+    $scope.istekVarMi = false;
+
+    function init() {
+        $scope.istekVarMi = true;
+        $http({
+            method: 'GET',
+            url: host + "api/category/getall"
+        }).then(function successCallback(response) {
+            $scope.istekVarMi = false;
+            var r = response.data;
+            if (r.success) {
+                $scope.categoryList = r.data;
+            } else {
+                alert(r.message);
+            }
+        }, function errorCallback(response) {
+            $scope.istekVarMi = false;
+            console.log(response);
+        });
+    }
+
+    $scope.ekle = function () {
+        $scope.istekVarMi = true;
+        $http({
+            method: "POST",
+            url: host + "api/category/add",
+            data: $scope.yeni
+        }).then(function (rs) {
+            $scope.istekVarMi = false;
+            if (rs.data.success) {
+                alert(rs.data.message);
+                init();
+            } else {
+                alert("bir hata oluştu " + rs.data.message);
+            }
+        },
+            function (re) {
+                $scope.istekVarMi = false;
+            });
+    };
 
     init();
 });

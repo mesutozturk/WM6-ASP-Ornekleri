@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html ng-app="myApp">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Category</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/app.js"></script>
+</head>
+<body>
+    <div class="container" ng-controller="CategoryCtrl">
+        <div class="row justify-content-center" ng-show="istekVarMi">
+            <div class="col">
+                <h4>Veri yükleniyor...</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form name="ekleform">
+                    <input type="text" class="form-control" ng-model="yeni.CategoryName" placeholder="Kategori Adı" /><br />
+                    <input type="text" class="form-control" ng-model="yeni.Description" placeholder="Açıklama" /><br />
+                    <input type="button" value="Ekle" class="btn btn-success" ng-click="ekle()" />
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Kategori Adı</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(key,item) in categoryList track by item.CategoryID">
+                            <th scope="row">{{key+1}}</th>
+                            <td>{{item.CategoryName}}</td>
+                            <td>{{item.Description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
