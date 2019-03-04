@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET SignalR Sohbete Hoşgeldiniz</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+</div>
+<div class="row">
+    <div class="col-md-12" id="logindiv">
+        <input type="text" id="username" placeholder="username" />
+        <input type="button" value="Login" id="btnlogin" />
+    </div>
+    <div class="col-md-12" id="chatdiv">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
+    </div>
+</div>
+
+
+@section scripts
+{
+
+    <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+            $("#logindiv").show();
+            $("#chatdiv").hide();
+            $("#btnlogin").click(function () {
+                var username = $("#username").val();
+                if (username == "") return;
+                $("#displayname").val(username);
+
+                $("#logindiv").hide();
+                $("#chatdiv").show();
+            });
+            var signalRHub = $.connection.chatHub;
+            
+            $.connection.hub.start().done(function() {
+                $("#sendmessage").click(function() {
+                    signalRHub.server.herkeseGonder($("#displayname").val(), $("#message").val());
+                });
+            });
+            signalRHub.client.herkeseGonder = function(gonderen, mesaj, tarih) {
+                $("<li></li>").html("<strong>" + gonderen + "</strong>: " + mesaj + "<i>" + tarih + "</i>")
+                    .appendTo("#discussion");
+            }
+        });
+    </script>
+}
