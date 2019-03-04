@@ -11,11 +11,14 @@
         <input type="text" id="username" placeholder="username" />
         <input type="button" value="Login" id="btnlogin" />
     </div>
-    <div class="col-md-12" id="chatdiv">
+    <div class="col-md-6" id="chatdiv">
         <input type="text" id="message" />
         <input type="button" id="sendmessage" value="Send" />
         <input type="hidden" id="displayname" />
         <ul id="discussion"></ul>
+    </div>
+    <div class="col-md-6" id="onlineusers">
+        <ul id="onlinelist"></ul>
     </div>
 </div>
 
@@ -26,6 +29,7 @@
     <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
+        var userList = [];
         $(function () {
             $("#logindiv").show();
             $("#chatdiv").hide();
@@ -33,20 +37,51 @@
                 var username = $("#username").val();
                 if (username == "") return;
                 $("#displayname").val(username);
-
+                signalRHub.server.login(username, $.connection.hub.id);
                 $("#logindiv").hide();
                 $("#chatdiv").show();
             });
             var signalRHub = $.connection.chatHub;
-            
-            $.connection.hub.start().done(function() {
-                $("#sendmessage").click(function() {
+            var conId = null;
+            $.connection.hub.start().done(function () {
+
+                conId = $.connection.hub.id;
+                $("#sendmessage").click(function () {
                     signalRHub.server.herkeseGonder($("#displayname").val(), $("#message").val());
                 });
             });
-            signalRHub.client.herkeseGonder = function(gonderen, mesaj, tarih) {
+            signalRHub.client.herkeseGonder = function (gonderen, mesaj, tarih) {
                 $("<li></li>").html("<strong>" + gonderen + "</strong>: " + mesaj + "<i>" + tarih + "</i>")
                     .appendTo("#discussion");
+            };
+            signalRHub.client.users = function (users) {
+                $("#onlinelist").empty();
+                userList = users;
+                $.each(users,
+                    function (key, item) {
+                        var li = $("<li></li>").html(item.UserName);
+                        $("<input />").attr("type", "button")
+                            .attr("value", "Özel Mesaj Gönder")
+                            .attr("name", item.Id)
+                            .on("click", function () {
+                                var aliciId = this.name;
+                                var ozelMesaj = prompt("Lütfen Mesajınızı Giriniz");
+                                signalRHub.server.ozelMesaj(conId, aliciId, ozelMesaj);
+                            })
+                            .appendTo($(li));
+                        li.attr("name", item.Id).appendTo("#onlinelist");
+
+                    });
+            }
+            signalRHub.client.mesajGeldi = function (gonderenId, mesaj) {
+                var gonderen = null;
+                for (var i = 0; i < userList.length; i++) {
+                    if (userList[i].Id == gonderenId) {
+                        gonderen = userList[i];
+                        break;
+                    }
+                }
+                alert(gonderen.UserName + ": " + mesaj);
             }
         });
     </script>
