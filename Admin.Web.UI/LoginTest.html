@@ -16,6 +16,8 @@
     <div id="info">
         Hoşgeldin <label id="lblinfo"></label>
         <img src="#" width="250" height="250" id="imguser" />
+        <br/>
+        <input type="button" value="Logout" id="btnlogout"/>
     </div>
 
     <script>
@@ -32,6 +34,7 @@
                 }).done(function(res) {
                     console.log(res);
                     localStorage.setItem("token", res.access_token);
+                    init();
                 });
             });
 
@@ -41,15 +44,28 @@
                     method: "GET",
                     headers: {
                         "authorization": "Bearer " + localStorage.getItem("token"),
-                        "content-type": "application/json",
+                        "content-type": "application/json"
                     }
                 }).done(function(res) {
                     console.log(res);
-                    $("#lblinfo").html(res.Name + " " + res.Surname);
-                    $("#imguser").attr("src", "https://localhost:44349" + res.AvatarPath);
+                    if (res.success) {
+                        $("#login").hide();
+                        $("#info").show();
+
+                        $("#lblinfo").html(res.data.Name + " " + res.data.Surname);
+                        $("#imguser").attr("src", "https://localhost:44349" + res.data.AvatarPath);
+                    } else {
+                        $("#login").show();
+                        $("#info").hide();
+                    }
+                    
                 });
             };
-            
+
+            $("#btnlogout").click(function() {
+                localStorage.removeItem("token");
+                init();
+            });
 
             init();
         });
