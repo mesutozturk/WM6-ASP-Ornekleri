@@ -7,7 +7,12 @@ app.controller("testCtrl", function($scope) {
     $scope.dataGridOptions = {
         dataSource: customers,
         columns: ["CompanyName", "City", "State", "Phone", "Fax"],
-        showBorders: true
+        showBorders: true,
+        searchPanel: {
+            visible: true,
+            width: 240,
+            placeholder: "Ara..."
+        }
     };
 
 });
