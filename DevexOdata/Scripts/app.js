@@ -7,12 +7,7 @@ app.controller("testCtrl", function ($scope) {
     $scope.dataGridOptions = {
         dataSource: customers,
         columns: ["CompanyName", "City", "State", "Phone", "Fax"],
-        showBorders: true,
-        searchPanel: {
-            visible: true,
-            width: 240,
-            placeholder: "Ara..."
-        }
+        showBorders: true
     };
 
 });
@@ -34,8 +29,42 @@ app.controller("customerCtrl", function ($scope, $http) {
     function loadGrid() {
         $scope.dataGridOptions = {
             dataSource: $scope.data,
-            columns: ["Name", "Surname", "Phone", "Address", "Balance"],
+            selection: {
+                mode: "multiple"
+            },
+            onSelectionChanged: function (selected) {
+                $scope.selected = selected.selectedRowsData;
+            },
+            "export": {
+                enabled: true,
+                fileName: "Customers_" + parseInt(Math.random()*100000),
+                allowExportSelectedData: true
+            },
+            columnChooser: {
+                enabled: true,
+                allowSearch: true
+            },
+            columns: [
+                {
+                    dataField: "Id",
+                    caption: "Müşteri No",
+                    visible: false
+                }, "Name", "Surname", "Phone", "Address",
+                {
+                    dataField: "Balance",
+                    caption: "Balance",
+                    dataType: "number",
+                    format: "#,##0.## ₺"
+                }],
             showBorders: true,
+            paging: {
+                pageSize: 10
+            },
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [5, 10, 20],
+                showInfo: true
+            },
             searchPanel: {
                 visible: true,
                 width: 240,
