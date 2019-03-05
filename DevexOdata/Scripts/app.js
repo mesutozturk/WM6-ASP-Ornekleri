@@ -1,8 +1,8 @@
 ﻿/// <reference path="angular.js" />
 
 var app = angular.module("myApp", ["dx"]);
-
-app.controller("testCtrl", function($scope) {
+var host = 'http://localhost:61757/';
+app.controller("testCtrl", function ($scope) {
 
     $scope.dataGridOptions = {
         dataSource: customers,
@@ -15,6 +15,36 @@ app.controller("testCtrl", function($scope) {
         }
     };
 
+});
+
+app.controller("customerCtrl", function ($scope, $http) {
+    $scope.data = null;
+    function init() {
+        $http({
+            url: host + 'api/customer/getall',
+            method: 'GET'
+        }).then(function (ev) {
+            if (ev.data.success) {
+                $scope.data = ev.data.data;
+                loadGrid();
+            }
+        });
+    }
+
+    function loadGrid() {
+        $scope.dataGridOptions = {
+            dataSource: $scope.data,
+            columns: ["Name", "Surname", "Phone", "Address", "Balance"],
+            showBorders: true,
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Ara..."
+            }
+        };
+    }
+
+    init();
 });
 
 var customers = [{
