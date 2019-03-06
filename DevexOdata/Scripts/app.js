@@ -29,15 +29,12 @@ app.controller("customerCtrl", function ($scope, $http) {
 
     function loadGrid() {
         $scope.dataGridOptions = {
-            keyExpr: "Id",
+            //keyExpr: "Id",
             dataSource: {
                 store: {
                     type: "odata",
                     url: '/odata/CustomerOdata',
-                    key: ["Id"],
-                    keyType: {
-                        Id: "Int32"
-                    }
+                    key: "Id"
                 }
             },
             editing: {
@@ -45,7 +42,7 @@ app.controller("customerCtrl", function ($scope, $http) {
                 allowUpdating: true,
                 allowDeleting: true,
                 allowAdding: true
-            }, 
+            },
             selection: {
                 mode: "multiple"
             },
@@ -69,6 +66,17 @@ app.controller("customerCtrl", function ($scope, $http) {
             },
             headerFilter: {
                 visible: true
+            },
+            onRowUpdating: function (e) {
+                console.log("RowUpdating");
+                for (var propertyName in e.newData) {
+                    if (e.newData.hasOwnProperty(propertyName)) {
+                        console.log(propertyName);
+                        e.oldData[propertyName] = e.newData[propertyName];
+                    }
+                }
+                e.newData = e.oldData;
+                console.log(e);
             },
             columns: [
                 {
