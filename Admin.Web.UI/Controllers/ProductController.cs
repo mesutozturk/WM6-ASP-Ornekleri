@@ -9,6 +9,7 @@ using Admin.BLL.Services;
 using Admin.Models.Entities;
 using Admin.Models.Models;
 using Admin.Models.ViewModels;
+using Admin.Web.UI.App_Code;
 
 namespace Admin.Web.UI.Controllers
 {
@@ -21,7 +22,7 @@ namespace Admin.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [MyAuth(Roles = "Admin")]
         public ActionResult Add()
         {
             ViewBag.ProductList = GetProductSelectList();
@@ -31,7 +32,7 @@ namespace Admin.Web.UI.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [MyAuth(Roles = "Admin")]
         public async Task<ActionResult> Add(Product model)
         {
             if (!ModelState.IsValid)

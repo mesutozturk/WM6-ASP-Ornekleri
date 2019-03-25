@@ -6,10 +6,11 @@ using System.Linq;
 using System.Web.Mvc;
 using Admin.BLL.Identity;
 using Admin.Models.Enums;
+using Admin.Web.UI.App_Code;
 
 namespace Admin.Web.UI.Controllers
 {
-    [Authorize]
+    [MyAuth]
     [RequireHttps]
     public class BaseController : Controller
     {
