@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using Admin.BLL.Repository;
+using Admin.Models.Entities;
 using Admin.Web.UI.Controllers;
 using static Admin.Web.UI.App_Code.VType;
 
@@ -12,7 +14,7 @@ namespace Admin.Web.UI.App_Code
     public class AuthGenerator
     {
         private List<Type> _derrivedTypes;
-        public Dictionary<string, List<string>> ActionLists { get; set; } = new Dictionary<string, List<string>>();
+        public static List<AuthGenerator> AuthGenerators { get; set; }
         public AuthGenerator()
         {
             this.Generate();
@@ -21,28 +23,34 @@ namespace Admin.Web.UI.App_Code
         void Generate()
         {
             var baseClass = typeof(BaseController);
-            _derrivedTypes = GetDerivedTypes(typeof(BaseController),
-                Assembly.GetExecutingAssembly());
-            foreach (var derrivedType in _derrivedTypes)
-            {
-                Console.WriteLine(derrivedType);
-                var actionList = new List<string>();
-                foreach (var item in derrivedType.GetMembers())
+            Assembly asm = Assembly.GetAssembly(typeof(Admin.Web.UI.MvcApplication));
+
+            var controllerActionList = asm.GetTypes()
+                .Where(type => typeof(System.Web.Mvc.Controller).IsAssignableFrom(type))
+                .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
+                .Where(m => !m.GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), true).Any())
+                .Select(x => new AuthOperation
                 {
-                    if (item.DeclaringType == null) continue;
+                    Controller = x.DeclaringType.Name,
+                    Action = x.Name,
+                    ReturnType = x.ReturnType.Name,
+                    Attributes = String.Join(",", x.GetCustomAttributes().Select(a => a.GetType().Name.Replace("Attribute", "")))
+                })
+                .OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
 
-
-                    if (item.MemberType == MemberTypes.Method && item.DeclaringType.IsPublic)
-                    {
-                        MethodInfo aaa = item.DeclaringType.GetMethod(item.Name);
-                        if (aaa.ReturnType.FullName == typeof(ActionResult).FullName || IsSubclassOf(aaa.ReturnType, typeof(ActionResult)))
-                        {
-
-                        }
-                    }
+            var repo = new AuthOperatonRepo();
+            foreach (var item in controllerActionList)
+            {
+                try
+                {
+                    //repo.Insert(item);
                 }
-                //ActionLists.Add(derrivedType.Name,);
+                catch (Exception e)
+                {
+                    continue;
+                }
             }
+
             Console.WriteLine();
         }
     }

@@ -1,6 +1,8 @@
 ﻿using Admin.Models.Entities;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Annotations;
 using Admin.Models.IdentityModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 

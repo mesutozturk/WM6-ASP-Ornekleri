@@ -13,10 +13,15 @@ namespace Admin.Models.Entities
             this.Id = Guid.NewGuid();
         }
 
-        public string ControllerName { get; set; }
-        public string ActionName { get; set; }
-        public string ActionMethod { get; set; }
+        public string Controller { get; set; }
+        public string Action { get; set; }
+        public string Attributes { get; set; }
+        public string ReturnType { get; set; }
 
         public virtual ICollection<AuthOperationRole> AuthOperationRoles { get; set; } = new HashSet<AuthOperationRole>();
+        public override string ToString()
+        {
+            return $"{Controller} {Action} {Attributes} {ReturnType}";
+        }
     }
 }

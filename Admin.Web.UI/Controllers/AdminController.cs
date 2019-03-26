@@ -92,7 +92,7 @@ namespace Admin.Web.UI.Controllers
                 await userStore.SetPasswordHashAsync(user, NewUserManager().PasswordHasher.HashPassword(newPassword));
                 await userStore.UpdateAsync(user);
                 userStore.Context.SaveChanges();
-                
+
                 string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
                                  (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
                 var emailService = new EmailService();
@@ -252,5 +252,6 @@ namespace Admin.Web.UI.Controllers
 
             return RedirectToAction("EditUser", new { id = userId });
         }
+
     }
 }

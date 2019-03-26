@@ -22,7 +22,7 @@ namespace Admin.Web.UI.Controllers
         }
 
         [HttpGet]
-        [MyAuth(Roles = "Admin")]
+        [MyAuth]
         public ActionResult Add()
         {
             ViewBag.ProductList = GetProductSelectList();

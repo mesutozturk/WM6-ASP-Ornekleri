@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using System.Web.Mvc.Properties;
+using Admin.BLL.Identity;
+using Admin.BLL.Repository;
+using Admin.Models.IdentityModels;
 
 namespace Admin.Web.UI.App_Code
 {
@@ -45,7 +49,45 @@ namespace Admin.Web.UI.App_Code
             if (httpContext == null)
                 throw new ArgumentNullException(nameof(httpContext));
             IPrincipal user = httpContext.User;
-            return user.Identity.IsAuthenticated && (this._usersSplit.Length == 0 || ((IEnumerable<string>)this._usersSplit).Contains<string>(user.Identity.Name, (IEqualityComparer<string>)StringComparer.OrdinalIgnoreCase)) && (this._rolesSplit.Length == 0 || ((IEnumerable<string>)this._rolesSplit).Any<string>(new Func<string, bool>(user.IsInRole)));
+
+            return user.Identity.IsAuthenticated && CheckDb(httpContext);
+
+            
+
+            //var result = user.Identity.IsAuthenticated &&
+            //             (this._usersSplit.Length == 0 ||
+            //              ((IEnumerable<string>)this._usersSplit).Contains<string>(user.Identity.Name,
+            //                  (IEqualityComparer<string>)StringComparer.OrdinalIgnoreCase)) &&
+            //             (this._rolesSplit.Length == 0 || ((IEnumerable<string>)this._rolesSplit).Any<string>(new Func<string, bool>(user.IsInRole)));
+            //return result;
+        }
+
+        protected virtual bool CheckDb(HttpContextBase httpContext)
+        {
+            IPrincipal user = httpContext.User;
+
+            var requestContext = ((MvcHandler)httpContext.Handler).RequestContext;
+            var controllerName = (string)requestContext.RouteData.Values["controller"];
+            controllerName = controllerName.ToLower(new CultureInfo("en-US"));
+            var actionName = (string)requestContext.RouteData.Values["action"];
+            actionName = actionName.ToLower(new CultureInfo("en-US"));
+            var method = httpContext.Request.HttpMethod;
+            method = method.ToLower(new CultureInfo("en-US"));
+
+            var authRepo = new AuthOperatonRepo();
+            var authList = authRepo.GetAll().OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
+            var authOperationResult = authList.FirstOrDefault(x =>
+                x.Controller.ToLower(new CultureInfo("en-US")).Contains(controllerName) &&
+                x.Action.ToLower(new CultureInfo("en-US")).Contains(actionName) &&
+                x.Attributes.ToLower(new CultureInfo("en-US")).Contains(method));
+
+            if (authOperationResult == null || !authOperationResult.AuthOperationRoles.Any()) return false;
+
+            var roleList = authOperationResult.AuthOperationRoles.Select(x => x.Id2).ToList();
+
+            var roleName = MembershipTools.NewRoleStore().Context.Set<Role>().FirstOrDefault(x => roleList.Contains(x.Id))?.Name;
+
+            return user.IsInRole(roleName);
         }
         private void CacheValidateHandler(
             HttpContext context,
