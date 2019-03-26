@@ -271,7 +271,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\AuthAttribute.cs" />
+    <Compile Include="App_Code\AuthGenerator.cs" />
+    <Compile Include="App_Code\InheritedAttribute.cs" />
+    <Compile Include="App_Code\MyAuthAttribute.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />

@@ -9,6 +9,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Http;
 using System.Web.Routing;
+using Admin.Web.UI.App_Code;
 
 namespace Admin.Web.UI
 {
@@ -32,6 +33,8 @@ namespace Admin.Web.UI
                         Name = rol
                     });
             }
+
+            var generator = new AuthGenerator();
         }
     }
 }

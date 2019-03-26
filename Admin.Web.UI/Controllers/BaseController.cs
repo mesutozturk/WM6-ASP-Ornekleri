@@ -8,10 +8,13 @@ using Admin.BLL.Identity;
 using Admin.Models.Enums;
 using Admin.Web.UI.App_Code;
 
+//using Admin.Web.UI.App_Code;
+
 namespace Admin.Web.UI.Controllers
 {
     [MyAuth]
     [RequireHttps]
+    
     public class BaseController : Controller
     {
         protected List<SelectListItem> GetCategorySelectList()

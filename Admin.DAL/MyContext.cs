@@ -47,5 +47,7 @@ namespace Admin.DAL
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<AuthOperation> AuthOperations { get; set; }
+        public virtual DbSet<AuthOperationRole> AuthOperationRoles { get; set; }
     }
 }
