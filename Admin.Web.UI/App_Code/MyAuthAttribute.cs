@@ -9,12 +9,14 @@ using System.Web.Mvc;
 using System.Web.Mvc.Properties;
 using Admin.BLL.Identity;
 using Admin.BLL.Repository;
+using Admin.Models.Entities;
 using Admin.Models.IdentityModels;
 
 namespace Admin.Web.UI.App_Code
 {
     public class MyAuthAttribute : AuthorizeAttribute
     {
+        private static List<AuthOperation> _authOperations;
         private static readonly char[] _splitParameter = new char[1]
         {
             ','
@@ -74,7 +76,12 @@ namespace Admin.Web.UI.App_Code
             method = method.ToLower(new CultureInfo("en-US"));
 
             var authRepo = new AuthOperatonRepo();
-            var authList = authRepo.GetAll().OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
+            if (_authOperations == null || !_authOperations.Any())
+            {
+                _authOperations = authRepo.GetAll().OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
+            }
+
+            var authList = _authOperations;
             var authOperationResult = authList.FirstOrDefault(x =>
                 x.Controller.ToLower(new CultureInfo("en-US")).Contains(controllerName) &&
                 x.Action.ToLower(new CultureInfo("en-US")).Contains(actionName) &&
