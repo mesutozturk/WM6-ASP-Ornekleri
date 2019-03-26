@@ -45,7 +45,6 @@ namespace Admin.Web.UI.App_Code
         }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            //todo işi yapacak alan bu burada veritabanına bağlanıp listeden seçim yapmalıyız role göre
             if (httpContext == null)
                 throw new ArgumentNullException(nameof(httpContext));
             IPrincipal user = httpContext.User;
