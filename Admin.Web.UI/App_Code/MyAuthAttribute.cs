@@ -1,22 +1,21 @@
-﻿using System;
+﻿using Admin.BLL.Identity;
+using Admin.BLL.Repository;
+using Admin.Models.Entities;
+using Admin.Models.IdentityModels;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
-using System.Web.Http.Controllers;
 using System.Web.Mvc;
-using System.Web.Mvc.Properties;
-using Admin.BLL.Identity;
-using Admin.BLL.Repository;
-using Admin.Models.Entities;
-using Admin.Models.IdentityModels;
 
 namespace Admin.Web.UI.App_Code
 {
     public class MyAuthAttribute : AuthorizeAttribute
     {
         private static List<AuthOperation> _authOperations;
+        private static List<Role> _roles;
         private static readonly char[] _splitParameter = new char[1]
         {
             ','
@@ -53,7 +52,7 @@ namespace Admin.Web.UI.App_Code
 
             return user.Identity.IsAuthenticated && CheckDb(httpContext);
 
-            
+
 
             //var result = user.Identity.IsAuthenticated &&
             //             (this._usersSplit.Length == 0 ||
@@ -90,8 +89,11 @@ namespace Admin.Web.UI.App_Code
             if (authOperationResult == null || !authOperationResult.AuthOperationRoles.Any()) return false;
 
             var roleList = authOperationResult.AuthOperationRoles.Select(x => x.Id2).ToList();
+            if (_roles == null || !_roles.Any())
+                _roles = MembershipTools.NewRoleManager().Roles.ToList();
 
-            var roleName = MembershipTools.NewRoleStore().Context.Set<Role>().FirstOrDefault(x => roleList.Contains(x.Id))?.Name;
+
+            var roleName = _roles.FirstOrDefault(x => roleList.Contains(x.Id))?.Name;
 
             return user.IsInRole(roleName);
         }
